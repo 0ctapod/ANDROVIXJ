@@ -326,10 +326,7 @@
     }
 }
 
-/* =========================================================
-   MODALES PERSONALIZADOS — ANDROVIX-J
-   Reemplazan los alert() y confirm() nativos del browser.
-========================================================= */
+/* Los estilos de modales viven en global.css */
 
 .modal-androvix-overlay {
     position: fixed;

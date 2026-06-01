@@ -102,6 +102,83 @@ function actualizarIconoUsuario() {
     });
 }
 
+// ── Modales personalizados (disponibles en toda la app) ──────────────────────
+
+const MODAL_CONFIG = {
+    success: { icono: "fa-solid fa-circle-check",         titulo: "¡Listo!"          },
+    error:   { icono: "fa-solid fa-circle-xmark",         titulo: "Error"             },
+    warning: { icono: "fa-solid fa-triangle-exclamation", titulo: "Atención"          },
+    confirm: { icono: "fa-solid fa-cart-shopping",        titulo: "Confirmar compra"  }
+};
+
+/**
+ * Muestra un modal de notificación (reemplaza alert).
+ * Devuelve una Promise que se resuelve al presionar Aceptar.
+ * @param {string} mensaje - Puede contener HTML básico (strong, br).
+ * @param {"success"|"error"|"warning"} tipo
+ */
+function mostrarAlertaModal(mensaje, tipo = "success") {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-androvix-overlay";
+        overlay.innerHTML = `
+            <div class="modal-androvix modal-androvix--${tipo}" role="alertdialog" aria-modal="true">
+                <div class="modal-androvix__icono">
+                    <i class="${MODAL_CONFIG[tipo].icono}" aria-hidden="true"></i>
+                </div>
+                <h2 class="modal-androvix__titulo">${MODAL_CONFIG[tipo].titulo}</h2>
+                <p class="modal-androvix__mensaje">${mensaje}</p>
+                <div class="modal-androvix__botones">
+                    <button class="modal-androvix__btn modal-androvix__btn--aceptar" autofocus>
+                        Aceptar
+                    </button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+        overlay.querySelector(".modal-androvix__btn--aceptar").addEventListener("click", () => {
+            overlay.remove();
+            resolve();
+        });
+    });
+}
+
+/**
+ * Muestra un modal de confirmación (reemplaza confirm).
+ * Devuelve una Promise<boolean>: true si confirma, false si cancela.
+ * @param {string} mensaje - Puede contener HTML básico.
+ * @param {string} [titulo] - Título opcional para sobrescribir el default.
+ * @param {string} [icono]  - Clase Font Awesome opcional.
+ */
+function mostrarConfirmacionModal(mensaje, titulo = MODAL_CONFIG.confirm.titulo, icono = MODAL_CONFIG.confirm.icono) {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-androvix-overlay";
+        overlay.innerHTML = `
+            <div class="modal-androvix modal-androvix--confirm" role="alertdialog" aria-modal="true">
+                <div class="modal-androvix__icono">
+                    <i class="${icono}" aria-hidden="true"></i>
+                </div>
+                <h2 class="modal-androvix__titulo">${titulo}</h2>
+                <p class="modal-androvix__mensaje">${mensaje}</p>
+                <div class="modal-androvix__botones">
+                    <button class="modal-androvix__btn modal-androvix__btn--cancelar" data-accion="cancelar">
+                        Cancelar
+                    </button>
+                    <button class="modal-androvix__btn modal-androvix__btn--confirmar" data-accion="confirmar" autofocus>
+                        Confirmar
+                    </button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+        overlay.querySelector("[data-accion='confirmar']").addEventListener("click", () => {
+            overlay.remove(); resolve(true);
+        });
+        overlay.querySelector("[data-accion='cancelar']").addEventListener("click", () => {
+            overlay.remove(); resolve(false);
+        });
+    });
+}
+
 // ── Inicialización ───────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", async () => {

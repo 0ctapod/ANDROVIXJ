@@ -84,11 +84,11 @@
                             Categoría
                             <select id="inputCategoriaProducto" name="categoria" required>
                                 <option value="">Selecciona una categoría</option>
-                                <option value="Chaquetas">Chaquetas</option>
-                                <option value="Camisetas">Camisetas</option>
-                                <option value="Pantalones">Pantalones</option>
-                                <option value="Accesorios">Accesorios</option>
-                                <option value="Calzado">Calzado</option>
+                                <option value="CHAQUETAS">Chaquetas</option>
+                                <option value="CAMISETAS">Camisetas</option>
+                                <option value="PANTALONES">Pantalones</option>
+                                <option value="ACCESORIOS">Accesorios</option>
+                                <option value="CALZADO">Calzado</option>
                             </select>
                         </label>
                     </div>
@@ -135,6 +135,29 @@
     </main>
     <!-- ========================================================= -->
     <!-- FIN: Contenido principal                                  -->
+    <!-- ========================================================= -->
+
+    <!-- ========================================================= -->
+    <!-- INICIO: Lista de productos registrados                   -->
+    <!-- ========================================================= -->
+    <section class="seccion-administrador pb-5">
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 text-center">
+                    <p class="subtitulo-seccion mb-2">Inventario</p>
+                    <h2 class="titulo-seccion efecto-glitch" data-text="PRODUCTOS REGISTRADOS">PRODUCTOS REGISTRADOS</h2>
+                    <span class="linea-destacada" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="panel-administrador">
+                <div id="lista-productos-admin" class="lista-productos-admin">
+                    <p class="lista-productos-admin__vacio">Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================================================= -->
+    <!-- FIN: Lista de productos registrados                       -->
     <!-- ========================================================= -->
 
     <div id="contenedor-footer"></div>

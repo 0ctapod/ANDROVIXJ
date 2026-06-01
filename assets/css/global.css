@@ -152,3 +152,98 @@ img {
         letter-spacing: 0.16rem;
     }
 }
+
+/* =========================================================
+   MODALES PERSONALIZADOS — ANDROVIX-J
+   Disponibles en toda la app (definidos en components.js).
+   Reemplazan alert() y confirm() del browser.
+========================================================= */
+
+.modal-androvix-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: modalFadeIn 0.2s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-androvix {
+    background: linear-gradient(160deg, rgba(14, 14, 14, 0.98), rgba(4, 4, 4, 0.99));
+    border-radius: 16px;
+    padding: 2rem 2rem 1.75rem;
+    max-width: 400px;
+    width: 90%;
+    animation: modalSlideIn 0.25s ease;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-14px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
+}
+
+.modal-androvix--success { border: 2px solid rgba(201, 247, 255, 0.45); box-shadow: 0 0 40px rgba(201, 247, 255, 0.07); }
+.modal-androvix--error   { border: 2px solid rgba(255, 77,  240, 0.45); box-shadow: 0 0 40px rgba(255, 77,  240, 0.07); }
+.modal-androvix--warning { border: 2px solid rgba(208, 140, 255, 0.45); box-shadow: 0 0 40px rgba(208, 140, 255, 0.07); }
+.modal-androvix--confirm { border: 2px solid rgba(201, 247, 255, 0.45); box-shadow: 0 0 40px rgba(201, 247, 255, 0.07); }
+
+.modal-androvix__icono { font-size: 1.9rem; margin-bottom: 0.65rem; }
+.modal-androvix--success .modal-androvix__icono { color: var(--color-neon-cian);    }
+.modal-androvix--error   .modal-androvix__icono { color: var(--color-neon-rosa);    }
+.modal-androvix--warning .modal-androvix__icono { color: var(--color-neon-violeta); }
+.modal-androvix--confirm .modal-androvix__icono { color: var(--color-neon-cian);    }
+
+.modal-androvix__titulo {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin: 0 0 0.6rem;
+}
+.modal-androvix--success .modal-androvix__titulo { color: var(--color-neon-cian);    text-shadow: 0 0 14px rgba(201, 247, 255, 0.45); }
+.modal-androvix--error   .modal-androvix__titulo { color: var(--color-neon-rosa);    text-shadow: 0 0 14px rgba(255,  77, 240, 0.45); }
+.modal-androvix--warning .modal-androvix__titulo { color: var(--color-neon-violeta); text-shadow: 0 0 14px rgba(208, 140, 255, 0.35); }
+.modal-androvix--confirm .modal-androvix__titulo { color: var(--color-neon-cian);    text-shadow: 0 0 14px rgba(201, 247, 255, 0.45); }
+
+.modal-androvix__mensaje {
+    color: var(--color-texto-secundario);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin: 0 0 1.6rem;
+}
+
+.modal-androvix__botones { display: flex; gap: 0.65rem; justify-content: flex-end; }
+
+.modal-androvix__btn {
+    padding: 0.5rem 1.35rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border: 2px solid;
+    background: transparent;
+    transition: box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.modal-androvix__btn--cancelar  { border-color: rgba(255,255,255,0.14); color: var(--color-texto-secundario); }
+.modal-androvix__btn--cancelar:hover  { border-color: rgba(255,255,255,0.32); color: var(--color-texto); }
+.modal-androvix__btn--confirmar { border-color: var(--color-neon-cian); color: var(--color-neon-cian); }
+.modal-androvix__btn--confirmar:hover { box-shadow: 0 0 18px rgba(201,247,255,0.35); color: #fff; }
+.modal-androvix__btn--aceptar   { width: 100%; }
+
+.modal-androvix--success .modal-androvix__btn--aceptar { border-color: var(--color-neon-cian);    color: var(--color-neon-cian);    }
+.modal-androvix--error   .modal-androvix__btn--aceptar { border-color: var(--color-neon-rosa);    color: var(--color-neon-rosa);    }
+.modal-androvix--warning .modal-androvix__btn--aceptar { border-color: var(--color-neon-violeta); color: var(--color-neon-violeta); }
+.modal-androvix--success .modal-androvix__btn--aceptar:hover { box-shadow: 0 0 18px rgba(201,247,255,0.35); }
+.modal-androvix--error   .modal-androvix__btn--aceptar:hover { box-shadow: 0 0 18px rgba(255, 77,240,0.35); }
+.modal-androvix--warning .modal-androvix__btn--aceptar:hover { box-shadow: 0 0 18px rgba(208,140,255,0.35); }
