@@ -1,0 +1,40 @@
+/* =========================================================
+   LOGIN — ANDROVIX-J
+   ---------------------------------------------------------
+   Este archivo extiende registro.css con los estilos
+   exclusivos de la página de login.
+   No repite lo que ya está en registro.css; solo agrega
+   lo que es diferente o nuevo.
+   ========================================================= */
+
+   body {
+       background: url("../img/fondo2-login.png") top /cover fixed;
+   }
+
+/* =========================================================
+   ENLACE HACIA REGISTRO
+   Aparece debajo del botón para usuarios sin cuenta.
+   ========================================================= */
+.login__enlace-registro {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--color-d);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+.login__link {
+    color: var(--color-f);             /* Neon cian del sistema de registro */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.login__link:hover,
+.login__link:focus {
+    color: var(--color-e);             /* Neon rosa al hacer hover */
+    text-shadow:
+        0 0 5px var(--color-e),
+        0 0 12px var(--color-e);
+    text-decoration: underline;
+}

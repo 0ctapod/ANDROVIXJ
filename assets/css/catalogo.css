@@ -1,0 +1,203 @@
+/* =========================================================
+   HERO DE CATÁLOGO
+   ========================================================= */
+.seccion-hero-catalogo {
+    min-height: 55vh;
+    padding-top: 6.5rem;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.82)),
+        url("../img/fondo2-catalogo.png") center / cover no-repeat fixed;
+}
+
+.contenido-hero-catalogo {
+    position: relative;
+    z-index: 1;
+}
+
+.titulo-principal-catalogo {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    color: var(--color-texto);
+    text-shadow: 0 0 24px rgba(201, 247, 255, 0.18);
+}
+
+
+/* =========================================================
+   CONTENIDO PRINCIPAL DEL CATÁLOGO
+   ========================================================= */
+.seccion-catalogo {
+    background:
+        radial-gradient(circle at top left, rgba(208, 140, 255, 0.10), transparent 24%),
+        radial-gradient(circle at top right, rgba(201, 247, 255, 0.08), transparent 20%),
+        linear-gradient(180deg, #040404 0%, #000000 100%);
+}
+
+/* =========================================================
+   CARDS DE PRODUCTOS
+   ========================================================= */
+.tarjeta-producto {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top left, rgba(208, 140, 255, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(201, 247, 255, 0.10), transparent 25%),
+        var(--degradado-panel);
+    border: 1px solid var(--color-borde);
+    border-radius: 1rem;
+    box-shadow: var(--sombra-neon-suave);
+    backdrop-filter: blur(12px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 77, 240, 0.35);
+    box-shadow: var(--sombra-neon-rosa);
+}
+
+.tarjeta-producto img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contenido-tarjeta-producto {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.2rem;
+}
+
+.categoria-producto {
+    display: inline-block;
+    margin-bottom: 0.7rem;
+    color: var(--color-neon-cian);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.nombre-producto {
+    margin: 0 0 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-texto);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.descripcion-producto {
+    margin-bottom: 1rem;
+    color: var(--color-texto-secundario);
+    line-height: 1.7;
+}
+
+.pie-producto {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.9rem;
+    margin-top: auto;
+}
+
+.precio-producto {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--color-neon-violeta);
+}
+
+.boton-carrito {
+    width: 100%;
+    padding: 0.95rem 1.1rem;
+    border: 1px solid rgba(201, 247, 255, 0.24);
+    border-radius: 0.9rem;
+    background: linear-gradient(90deg, rgba(255, 77, 240, 0.18), rgba(201, 247, 255, 0.18));
+    color: var(--color-texto);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 0 18px rgba(201, 247, 255, 0.10);
+    transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.boton-carrito:hover,
+.boton-carrito:focus {
+    transform: translateY(-2px);
+    border-color: rgba(255, 77, 240, 0.50);
+    background: linear-gradient(90deg, rgba(255, 77, 240, 0.28), rgba(201, 247, 255, 0.26));
+    box-shadow: 0 0 24px rgba(255, 77, 240, 0.18);
+}
+
+
+/* =========================================================
+   FILTRO DE CATEGORÍAS
+   ========================================================= */
+.filtro-wrapper {
+    max-width: 100%;
+}
+
+.filtro-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.filtro-btn {
+    padding: 0.45rem 1.1rem;
+    background: transparent;
+    border: 1px solid var(--color-borde);
+    border-radius: 999px;
+    color: var(--color-texto-secundario);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filtro-btn:hover {
+    border-color: var(--color-neon-cian);
+    color: var(--color-neon-cian);
+    background: rgba(201, 247, 255, 0.04);
+}
+
+.filtro-btn--activo {
+    border-color: var(--color-neon-rosa);
+    color: var(--color-neon-rosa);
+    background: rgba(255, 77, 240, 0.08);
+    box-shadow: 0 0 12px rgba(255, 77, 240, 0.2);
+}
+
+.filtro-btn--activo:hover {
+    border-color: var(--color-neon-rosa);
+    color: var(--color-neon-rosa);
+    background: rgba(255, 77, 240, 0.12);
+}
+
+/* =========================================================
+   ESTADO VACÍO DE FILTRO
+   ========================================================= */
+.sin-resultados {
+    color: var(--color-texto-secundario);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 3rem 0;
+}
+
+@media (max-width: 991.98px) {
+    .seccion-hero-catalogo {
+        min-height: 48vh;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tarjeta-producto img {
+        height: 230px;
+    }
+}

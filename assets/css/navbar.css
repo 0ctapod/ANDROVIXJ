@@ -1,0 +1,103 @@
+/* =========================================================
+   NAVEGACIÓN Y ENCABEZADO BASE
+   ========================================================= */
+.encabezado-principal {
+    position: relative;
+}
+
+.barra-navegacion {
+    padding: 8px;
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 8px var(--color-neon-azul);
+}
+
+.logo-full {
+  height: 70px;
+  width: auto;
+  filter: brightness(8) 
+            drop-shadow(0 0 10px #7300ff)
+            drop-shadow(0 0 5px #7300ff);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+
+.marca-sitio:hover,
+.marca-sitio:focus {
+    color: #f0ddff;
+}
+
+.boton-menu {
+    color: var(--color-neon-cian);
+    border: 1px solid rgba(88, 247, 255, 0.35);
+    box-shadow: var(--sombra-neon-cian);
+    filter: brightness(8) 
+            drop-shadow(0 0 10px #00d9ff)
+            drop-shadow(0 0 5px #00e1ff);
+}
+
+.boton-menu:focus {
+    box-shadow: 0 0 0 0.18rem rgba(88, 247, 255, 0.22);
+}
+
+.enlace-navegacion {
+    color: rgba(255, 255, 255, 0.88);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem !important;
+    border-radius: 0.75rem;
+    transition: all 0.25s ease;
+}
+
+.enlace-navegacion:hover,
+.enlace-navegacion:focus,
+.enlace-navegacion.active {
+    color: #fff;
+    background-color: #9000ff8b !important;
+    box-shadow: 0 0 15px 0 #b731ff !important;
+}
+
+.iconos-navegacion {
+    min-width: 84px;
+}
+
+.icono-accion {
+    position: relative;
+    color: #dfd5ff;
+    font-size: 1rem;
+    transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+.badge-carrito {
+    position: absolute;
+    top: -7px;
+    right: -9px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--color-neon-rosa);
+    color: #000;
+    font-size: 0.58rem;
+    font-weight: 800;
+    line-height: 16px;
+    border-radius: 999px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.icono-accion:hover,
+.icono-accion:focus {
+    transform: translateY(-2px);
+    text-shadow: 0 0 12px rgba(88, 247, 255, 0.8);
+}
+
+@media (max-width: 991.98px) {
+    .iconos-navegacion {
+        padding-top: 0.75rem;
+    }
+}

@@ -1,0 +1,327 @@
+/* =========================================================
+   ANDROVIX-J | CARRITO DE COMPRAS
+   ---------------------------------------------------------
+   Mantiene la esencia visual existente:
+   - Panel cyberpunk/neón.
+   - Productos impresos con estructura agregar__*.
+   - Ícono de eliminar con Font Awesome.
+   - Carrito fijo/sticky a la derecha en escritorio.
+   - Carrito debajo del catálogo en pantallas pequeñas.
+========================================================= */
+
+/* =========================================================
+   LAYOUT CATÁLOGO + CARRITO
+========================================================= */
+
+.contenedor-flex {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+#contenedor-productos-catalogo {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   CONTENEDOR DEL CARRITO
+========================================================= */
+
+.carrito {
+    width: 30%;
+    height: fit-content;
+    max-height: 85vh;
+    position: sticky;
+    top: 100px;
+    border-radius: 20px;
+    box-shadow: var(--sombra-neon-suave);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 77, 240, 0.50);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.carrito__titulo {
+    font-weight: bold;
+    font-size: 1.7rem;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(201, 247, 255, 0.24);
+    text-shadow: 2px 2px 5px #808080;
+}
+
+.carrito__contador {
+    background: var(--background);
+    color: var(--color-texto);
+    border: var(--border);
+    padding: 2px 10px;
+    border-radius: 10px;
+    box-shadow: var(--sombra-neon-suave);
+}
+
+.carrito__contenido {
+    overflow-y: auto;
+    height: 100%;
+    max-height: 52vh;
+}
+
+.carrito__contenido::-webkit-scrollbar {
+    width: 5px;
+}
+
+.carrito__contenido::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ff4df0, #93ecff);
+    border-radius: 10px;
+}
+
+.carrito__mensaje-vacio {
+    color: var(--color-texto-secundario);
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 20px 0;
+}
+
+/* =========================================================
+   PRODUCTOS AGREGADOS
+========================================================= */
+
+.agregar {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 2px;
+    margin: 0;
+}
+
+.agregar__contenedor {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 5px 25px 5px;
+    border-bottom: 1px solid rgba(201, 247, 255, 0.24);
+    margin-top: 15px;
+}
+
+.agregar__item {
+    display: flex;
+    gap: 5px;
+    min-width: 0;
+}
+
+.agregar__img {
+    width: 90px;
+    height: 105px;
+    object-fit: cover;
+    object-position: center;
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid rgba(201, 247, 255, 0.24);
+    padding: 8px;
+    flex-shrink: 0;
+}
+
+.agregar__info {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    min-width: 0;
+}
+
+.agregar__categoria {
+    color: var(--color-neon-cian);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+}
+
+.agregar__titulo {
+    font-weight: bold;
+    margin: 0;
+    color: var(--color-texto);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.agregar__descripcion {
+    color: var(--color-texto-secundario);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin: 6px 0 8px;
+}
+
+.agregar__precio {
+    font-weight: bold;
+    color: var(--color-neon-violeta);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.agregar__cantidades {
+    align-self: start;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-radius: 5px;
+    border: 2px solid rgba(201, 247, 255, 0.24);
+}
+
+.agregar__boton {
+    background-color: transparent;
+    border: none;
+    padding: 5px 12px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--color-texto);
+}
+
+.agregar__boton:hover {
+    background: var(--background);
+    cursor: pointer;
+}
+
+.agregar__boton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.agregar__contador {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0;
+    color: var(--color-texto);
+}
+
+.agregar__boton-eliminar {
+    background-color: transparent;
+    border: none;
+    align-self: end;
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    color: var(--color-a);
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.agregar__boton-eliminar:hover {
+    color: var(--color-neon-violeta);
+    cursor: pointer;
+    transform: scale(1.12);
+}
+
+/* =========================================================
+   TOTAL Y FINALIZAR COMPRA
+========================================================= */
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-neon-cian);
+    border-bottom: var(--border);
+    margin-top: 10px;
+}
+
+.total__total {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.total--precio-color {
+    color: var(--color-a);
+    font-size: 1.6rem;
+}
+
+.compra__boton {
+    margin-top: 20px;
+    width: 100%;
+    background: var(--background);
+    border-radius: 6px;
+    border: 2px solid rgba(201, 247, 255, 0.24);
+    color: var(--color-neon-cian);
+    font-weight: bold;
+    padding: 18px 15px;
+    font-size: 1.4rem;
+    transition: transform 0.5s;
+    padding: 8px;
+}
+
+.compra__boton:hover {
+    transform: scale(1.02);
+    color: var(--color-neon-violeta);
+    outline: 2px solid var(--color-neon-violeta);
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 var(--color-neon-violeta);
+    text-shadow: 0 0 5px var(--color-neon-violeta);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1400px) {
+    .contenedor-flex {
+        flex-direction: column;
+    }
+
+    #contenedor-productos-catalogo {
+        width: 100%;
+    }
+
+    .carrito {
+        width: 100%;
+        position: relative;
+        top: auto;
+        margin-top: 30px;
+    }
+
+    .carrito__contenido {
+        max-height: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .agregar__contenedor {
+        align-items: flex-start;
+    }
+
+    .agregar__item {
+        gap: 8px;
+    }
+
+    .agregar__img {
+        width: 78px;
+        height: 95px;
+        padding: 6px;
+    }
+
+    .agregar__info {
+        padding: 6px;
+    }
+
+    .agregar__descripcion {
+        display: none;
+    }
+
+    .agregar__boton-eliminar {
+        margin-right: 4px;
+        margin-bottom: 12px;
+    }
+
+    .total__total {
+        font-size: 1.2rem;
+    }
+
+    .total--precio-color {
+        font-size: 1.35rem;
+    }
+
+    .compra__boton {
+        font-size: 1.15rem;
+    }
+}

@@ -1,0 +1,171 @@
+/* =========================================================
+   HERO DE ADMINISTRADOR
+   ========================================================= */
+.seccion-hero-administrador {
+    min-height: 58vh;
+    padding-top: 6.5rem;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.82)),
+        url("../img/fondo-admin.png") center / cover no-repeat fixed;
+}
+
+.contenido-hero-administrador {
+    position: relative;
+    z-index: 1;
+}
+
+.titulo-principal-admin {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    color: var(--color-texto);
+    text-shadow: 0 0 24px rgba(201, 247, 255, 0.18);
+}
+
+
+/* =========================================================
+   CONTENIDO PRINCIPAL
+   ========================================================= */
+.seccion-administrador {
+    background:
+        radial-gradient(circle at top left, rgba(208, 140, 255, 0.10), transparent 24%),
+        radial-gradient(circle at top right, rgba(201, 247, 255, 0.08), transparent 20%),
+        linear-gradient(180deg, #040404 0%, #000000 100%);
+}
+
+.panel-administrador {
+    display: grid;
+    grid-template-columns: minmax(0, 820px);
+    justify-content: center;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.formulario-administrador {
+    padding: 1.75rem;
+    background:
+        radial-gradient(circle at top left, rgba(208, 140, 255, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(201, 247, 255, 0.10), transparent 25%),
+        var(--degradado-panel);
+    border: 1px solid var(--color-borde);
+    border-radius: 1rem;
+    box-shadow: var(--sombra-neon-suave);
+    backdrop-filter: blur(12px);
+}
+
+.titulo-panel {
+    margin: 0 0 1.5rem;
+    font-family: var(--fuente-destacada);
+    font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-texto);
+}
+
+.fila-formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.campo-formulario {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--color-neon-cian);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.campo-formulario input,
+.campo-formulario select,
+.campo-formulario textarea {
+    display: block;
+    width: 100%;
+    margin-top: 0.55rem;
+    padding: 0.95rem 1rem;
+    color: var(--color-texto);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.85rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.campo-formulario select option {
+    color: #111111;
+}
+
+.campo-formulario textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.campo-formulario input::placeholder,
+.campo-formulario textarea::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.campo-formulario input:hover,
+.campo-formulario select:hover,
+.campo-formulario textarea:hover {
+    border-color: rgba(201, 247, 255, 0.28);
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus,
+.campo-formulario textarea:focus {
+    outline: none;
+    border-color: rgba(255, 77, 240, 0.55);
+    box-shadow: 0 0 0 0.2rem rgba(255, 77, 240, 0.12);
+}
+
+.boton-principal-admin {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.95rem 1.4rem;
+    border: 1px solid rgba(255, 77, 240, 0.35);
+    border-radius: 0.9rem;
+    background: linear-gradient(90deg, rgba(255, 77, 240, 0.18), rgba(147, 236, 255, 0.18));
+    color: var(--color-texto);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.boton-principal-admin:hover,
+.boton-principal-admin:focus {
+    transform: translateY(-2px);
+    border-color: rgba(255, 77, 240, 0.55);
+    box-shadow: var(--sombra-neon-rosa);
+}
+
+.mensaje-admin {
+    min-height: 1.5rem;
+    margin-top: 0.75rem;
+    color: var(--color-neon-cian);
+    font-weight: 600;
+}
+
+
+@media (max-width: 991.98px) {
+    .seccion-hero-administrador {
+        min-height: 48vh;
+    }
+
+    .panel-administrador {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .formulario-administrador {
+        padding: 1.35rem;
+    }
+
+    .fila-formulario {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

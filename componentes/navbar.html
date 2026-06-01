@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg barra-navegacion fixed-top" aria-label="Navegación principal del sitio">
+    <div class="container">
+        <a class="navbar-brand" href="../index.html">
+            <img src="../assets/iconos/logoAndrovix.png" class="logo-full" alt="Androvix-J">
+        </a>
+
+        <button class="navbar-toggler boton-menu" type="button" data-bs-toggle="collapse"
+            data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false"
+            aria-label="Abrir menú de navegación">
+            <span class="navbar-toggler-icon d-none"></span>
+            <i class="fa-solid fa-bars fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav mx-auto mb-3 mb-lg-0 text-center">
+                <li class="nav-item"><a class="nav-link enlace-navegacion" href="../index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link enlace-navegacion" href="catalogo.html">Catálogo</a></li>
+                <li class="nav-item"><a class="nav-link enlace-navegacion" href="acerca.html">Sobre Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link enlace-navegacion" href="contacto.html">Contacto</a></li>
+            </ul>
+
+            <div class="d-flex justify-content-center align-items-center gap-3 iconos-navegacion">
+                <a href="login.html" class="icono-accion" id="icono-usuario" aria-label="Iniciar sesión">
+                    <i class="fa-solid fa-user fs-5"></i>
+                </a>
+                <a href="catalogo.html#carrito" class="icono-accion" aria-label="Ver carrito">
+                    <i class="fa-solid fa-cart-shopping fs-5"></i>
+                    <span class="badge-carrito" id="cartCounterNavBar" hidden></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

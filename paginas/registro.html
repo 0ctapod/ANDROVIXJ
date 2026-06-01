@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Registro de usuarios de ANDROVIX-J">
+    <title>Registro | ANDROVIX-J</title>
+
+    <!-- Bootstrap base para grid, espaciados, utilidades y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos personalizados centralizados -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/registro.css">
+    <link rel="shortcut icon" href="../assets/iconos/logo.png" type="image/x-icon">
+</head>
+
+<body>
+    <!-- ========================================================= -->
+    <!-- INICIO: Navbar modular                                   -->
+    <!-- ========================================================= -->
+    <div id="contenedor-navbar"></div>
+    <!-- ========================================================= -->
+    <!-- FIN: Navbar modular                                      -->
+    <!-- ========================================================= -->
+
+    <!-- ========================================================= -->
+    <!-- INICIO: Contenido principal de registro                  -->
+    <!-- ========================================================= -->
+    <main class="pagina-registro" id="inicio">
+        <div class="contenedor-principal">
+            <!-- ================================================= -->
+            <!-- INICIO: Apartado de marca                         -->
+            <!-- ================================================= -->
+            <section class="marca" aria-label="Información de marca ANDROVIX-J">
+                <div>
+                    <img class="marca__logo" src="../assets/iconos/logo-letras.png" alt="Logo">
+
+                    
+                    <p class="marca__mensaje">ACCEDE A TU UNIVERSO</p>
+                    <p class="marca__mensaje2">CONECTA. <br>
+                        EXPLORA. <br>
+                        DOMINA EL FUTURO. <br>
+                    </p>
+                    
+                </div>
+
+                <div>
+                    <p class="marca__copyright">&copy ANDROVIX-J 
+                        Todos los derechos reservados</p>
+                </div>
+            </section>
+            <!-- ================================================= -->
+            <!-- FIN: Apartado de marca                            -->
+            <!-- ================================================= -->
+
+            <!-- ================================================= -->
+            <!-- INICIO: Formulario de registro                    -->
+            <!-- ================================================= -->
+            <section class="formulario-contenedor" aria-label="Formulario de registro de usuario">
+                <form class="formulario" id="formularioRegistro" novalidate>
+                    <h2 class="formulario__titulo">REGISTRO</h2>
+
+                    <div class="separador-neon" aria-hidden="true">
+                        <span class="separador__rombo"></span>
+                    </div>
+
+                    <div class="input">
+                        <!-- Nombre completo -->
+                        <div class="input__grupo">
+                            <label class="input__nombre" for="nombreCompleto">Nombre completo</label>
+                            <div class="input__apartados" id="grupoNombre">
+                                <i class="fa-solid fa-user" aria-hidden="true"></i>
+                                <input class="input__campo" type="text" id="nombreCompleto" name="nombreCompleto"
+                                    placeholder="Ej: Ana Rodríguez" autocomplete="name" required>
+                            </div>
+                            <p class="input__mensaje-error" id="errorNombre" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="input__grupo">
+                            <label class="input__nombre" for="telefono">Número de teléfono</label>
+                            <div class="input__apartados" id="grupoTelefono">
+                                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                                <input class="input__campo" type="tel" id="telefono" name="telefono"
+                                    placeholder="Ej: 3001234567" autocomplete="tel" required>
+                            </div>
+                            <p class="input__mensaje-error" id="errorTelefono" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="input__grupo">
+                            <label class="input__nombre" for="email">Email</label>
+                            <div class="input__apartados" id="grupoEmail">
+                                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                                <input class="input__campo" type="email" id="email" name="email"
+                                    placeholder="usuario@email.com" autocomplete="email" required>
+                            </div>
+                            <p class="input__mensaje-error" id="errorEmail" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div class="input__grupo">
+                            <label class="input__nombre" for="password">Contraseña</label>
+                            <div class="input__apartados" id="grupoPassword">
+                                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                                <input class="input__campo" type="password" id="password" name="password"
+                                    placeholder="Mínimo 8 caracteres" autocomplete="new-password" required>
+                                <button class="input__boton-ojo" type="button" data-password-toggle="password"
+                                    aria-label="Mostrar contraseña">
+                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <p class="input__mensaje-error" id="errorPassword" aria-live="polite"></p>
+                        </div>
+
+                        <!-- Confirmar contraseña -->
+                        <div class="input__grupo">
+                            <label class="input__nombre" for="confirmarPassword">Confirmar contraseña</label>
+                            <div class="input__apartados" id="grupoConfirmarPassword">
+                                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                                <input class="input__campo" type="password" id="confirmarPassword"
+                                    name="confirmarPassword" placeholder="Repite tu contraseña"
+                                    autocomplete="new-password" required>
+                                <button class="input__boton-ojo" type="button" data-password-toggle="confirmarPassword"
+                                    aria-label="Mostrar confirmación de contraseña">
+                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <p class="input__mensaje-error" id="errorConfirmarPassword" aria-live="polite"></p>
+                        </div>
+                    </div>
+
+                    <button class="input__boton-enviar w-100" type="submit">REGISTRARSE</button>
+
+                    <div class="alert alerta-registro" id="alertaRegistro" role="alert" aria-live="polite"></div>
+                </form>
+            </section>
+            <!-- ================================================= -->
+            <!-- FIN: Formulario de registro                       -->
+            <!-- ================================================= -->
+        </div>
+    </main>
+    <!-- ========================================================= -->
+    <!-- FIN: Contenido principal de registro                     -->
+    <!-- ========================================================= -->
+
+    <!-- ========================================================= -->
+    <!-- INICIO: Footer modular                                   -->
+    <!-- ========================================================= -->
+    <div id="contenedor-footer"></div>
+    <!-- ========================================================= -->
+    <!-- FIN: Footer modular                                      -->
+    <!-- ========================================================= -->
+
+
+    <!-- ========================================================= -->
+    <!-- SCRIPTS DEL SITIO                                         -->
+    <!-- Función: cargar componentes reutilizables, Bootstrap y    -->
+    <!-- la lógica de validación/envío del formulario de registro. -->
+    <!-- ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/paginas/registro.js"></script>
+</body>
+
+</html>

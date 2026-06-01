@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contáctanos a través de nuestro formulario o canales oficiales de ANDROVIX-J.">
+    <title>Contacto | ANDROVIX-J</title>
+
+    <!-- Bootstrap base para grid, espaciados, utilidades y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos personalizados centralizados -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/contacto.css">
+    <link rel="shortcut icon" href="../assets/iconos/logo.png" type="image/x-icon">
+</head>
+
+<body>
+
+
+    <!-- ========================================================= -->
+    <!-- INICIO: Encabezado principal de la página                 -->
+    <!-- ========================================================= -->
+    <header class="encabezado-principal" id="inicio">
+
+
+        <!-- ===================================================== -->
+        <!-- CONTENEDOR: Navbar modular                            -->
+        <!-- Función: cargar dinámicamente la barra de navegación  -->
+        <!-- compartida en todo el proyecto.                       -->
+        <!-- ===================================================== -->
+        <div id="contenedor-navbar"></div>
+
+
+        <!-- ===================================================== -->
+        <!-- INICIO: Sección hero                                  -->
+        <!-- ===================================================== -->
+        <section class="seccion-hero seccion-hero-contacto d-flex align-items-center">
+            <div class="container py-5">
+                <div class="row justify-content-center justify-content-lg-start">
+                    <div class="col-12 col-lg-8 col-xxl-7">
+                        <div class="contenido-hero contenido-hero-contacto">
+                            <p class="etiqueta-hero mb-3">Soporte Cibernético</p>
+                            <h1 class="titulo-principal efecto-glitch" data-text="CONTACTO">CONTACTO</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ===================================================== -->
+        <!-- FIN: Sección hero                                     -->
+        <!-- ===================================================== -->
+
+
+    </header>
+    <!-- ========================================================= -->
+    <!-- FIN: Encabezado principal de la página                    -->
+    <!-- ========================================================= -->
+
+
+
+    <!-- ========================================================= -->
+    <!-- INICIO: Contenido principal de la página                  -->
+    <!-- ========================================================= -->
+    <main id="contacto" class="seccion-contacto-principal py-5 py-lg-6">
+        <div class="container">
+
+            <!-- ===================================================== -->
+            <!-- INICIO: Encabezado principal de contacto              -->
+            <!-- Función: introducir la sección principal de canales   -->
+            <!-- ===================================================== -->
+            <div class="row justify-content-center mb-4 mb-lg-5">
+                <div class="col-lg-10 text-center">
+                    <p class="subtitulo-seccion mb-2">Canales activos</p>
+                    <h2 class="titulo-seccion efecto-glitch" data-text="NUESTROS CANALES">NUESTROS CANALES</h2>
+                    <span class="linea-destacada" aria-hidden="true"></span>
+                    <p class="descripcion-seccion mb-0">
+                        Usa el formulario principal o cualquiera de nuestros canales oficiales para comunicarte con el
+                        equipo.
+                    </p>
+                </div>
+            </div>
+            <!-- ===================================================== -->
+            <!-- FIN: Encabezado principal de contacto                 -->
+            <!-- ===================================================== -->
+
+            <!-- ===================================================== -->
+            <!-- INICIO: Sección de contacto                           -->
+            <!-- Función: agrupar el formulario validado y los canales -->
+            <!-- oficiales de contacto de ANDROVIX-J.                  -->
+            <!-- ===================================================== -->
+            <section class="contact" aria-labelledby="titulo-formulario">
+
+                <!-- ================================================= -->
+                <!-- INICIO: Formulario de contacto                    -->
+                <!-- Función: capturar datos del usuario, validar la   -->
+                <!-- información y enviar el mensaje mediante          -->
+                <!-- Formspree sin redirigir la página.                -->
+                <!-- ================================================= -->
+                <form id="formulario-contacto" class="contact__form effects" action="https://formspree.io/f/xwvaqqep"
+                    method="POST" novalidate aria-label="Formulario de contacto ANDROVIX-J">
+
+                    <h3 class="contact__title" id="titulo-formulario">FORMULARIO DE CONTACTO</h3>
+
+                    <label class="contact__task" for="inputNombre">
+                        Nombre:
+                        <input class="contact__task-input" type="text" name="nombre" id="inputNombre"
+                            placeholder="Tu nombre completo" autocomplete="name" maxlength="80" aria-required="true"
+                            aria-describedby="error-nombre">
+                        <span class="mensaje-error" id="error-nombre" role="alert" aria-live="polite"></span>
+                    </label>
+
+                    <label class="contact__task" for="inputCorreo">
+                        Correo electrónico:
+                        <input class="contact__task-input" type="email" name="correo" id="inputCorreo"
+                            placeholder="ejemplo@gmail.com" autocomplete="email" maxlength="120" aria-required="true"
+                            aria-describedby="error-correo">
+                        <span class="mensaje-error" id="error-correo" role="alert" aria-live="polite"></span>
+                    </label>
+
+                    <label class="contact__task" for="inputTelefono">
+                        Teléfono:
+                        <input class="contact__task-input" type="tel" name="telefono" id="inputTelefono"
+                            placeholder="+57 300 123 4567" autocomplete="tel" maxlength="20" aria-required="true"
+                            aria-describedby="error-telefono">
+                        <span class="mensaje-error" id="error-telefono" role="alert" aria-live="polite"></span>
+                    </label>
+
+                    <label class="contact__task" for="inputAsunto">
+                        Asunto:
+                        <input class="contact__task-input" type="text" name="asunto" id="inputAsunto"
+                            placeholder="¿En qué podemos ayudarte?" maxlength="120" aria-required="true"
+                            aria-describedby="error-asunto">
+                        <span class="mensaje-error" id="error-asunto" role="alert" aria-live="polite"></span>
+                    </label>
+
+                    <label class="contact__task" for="inputMensaje">
+                        Mensaje:
+                        <textarea class="contact__task-input input--resizable" rows="5" name="mensaje" id="inputMensaje"
+                            placeholder="Escribe tu mensaje aquí..." maxlength="1000" aria-required="true"
+                            aria-describedby="error-mensaje"></textarea>
+                        <span class="mensaje-error" id="error-mensaje" role="alert" aria-live="polite"></span>
+                    </label>
+
+                    <div id="alerta-envio" role="alert" aria-live="assertive"></div>
+
+                    <button class="contact__submit" type="submit" id="btn-enviar">
+                        Enviar
+                    </button>
+                </form>
+                <!-- ================================================= -->
+                <!-- FIN: Formulario de contacto                       -->
+                <!-- ================================================= -->
+
+                <!-- ================================================= -->
+                <!-- INICIO: Canales de contacto                       -->
+                <!-- ================================================= -->
+                <div class="channels effects" aria-label="Canales de contacto">
+                    <h3 class="contact__title">CANALES</h3>
+
+                    <div class="channel-icons">
+                        <div class="icons-text">
+                            <i class="fa-regular fa-envelope icons__icon" aria-hidden="true"></i>
+                            <p>
+                                <span class="icons-text__title">Correo:</span><br>
+                                androvix.j@atomicmail.io
+                            </p>
+                        </div>
+
+                        <div class="icons-text">
+                            <i class="fa-brands fa-whatsapp icons__icon" aria-hidden="true"></i>
+                            <p>
+                                <span class="icons-text__title">WhatsApp</span><br>
+                                +57 300 123 45 67
+                            </p>
+                        </div>
+
+                        <div class="icons-text">
+                            <i class="fa-solid fa-location-dot icons__icon" aria-hidden="true"></i>
+                            <p>
+                                <span class="icons-text__title">Ubicación</span><br>
+                                Bogotá, Colombia
+                            </p>
+                        </div>
+
+                        <div class="icons-networks" aria-label="Redes sociales">
+                            <a href="#" aria-label="Facebook de ANDROVIX-J">
+                                <i class="fa-brands fa-facebook icons-networks__network" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" aria-label="Twitter/X de ANDROVIX-J">
+                                <i class="fa-brands fa-x-twitter icons-networks__network" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" aria-label="Instagram de ANDROVIX-J">
+                                <i class="fa-brands fa-instagram icons-networks__network" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- ================================================= -->
+                <!-- FIN: Canales de contacto                          -->
+                <!-- ================================================= -->
+
+            </section>
+            <!-- ===================================================== -->
+            <!-- FIN: Sección de contacto                              -->
+            <!-- ===================================================== -->
+        </div>
+
+    </main>
+    <!-- ========================================================= -->
+    <!-- FIN: Contenido principal de la página                     -->
+    <!-- ========================================================= -->
+
+    <!-- ========================================================= -->
+    <!-- CONTENEDOR: Footer modular                                -->
+    <!-- Función: cargar dinámicamente el pie de página global     -->
+    <!-- compartido en todo el proyecto.                           -->
+    <!-- ========================================================= -->
+    <div id="contenedor-footer"></div>
+
+    <!-- ========================================================= -->
+    <!-- SCRIPTS DEL SITIO                                         -->
+    <!-- Función: cargar componentes reutilizables, Bootstrap y    -->
+    <!-- la lógica de validación/envío del formulario.             -->
+    <!-- ========================================================= -->
+    <script src="../assets/js/components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/paginas/contacto.js"></script>
+</body>
+
+</html>

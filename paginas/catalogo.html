@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo de productos cyberpunk de ANDROVIX-J.">
+    <title>Catálogo | ANDROVIX-J</title>
+
+    <!-- Bootstrap base para grid, espaciados, utilidades y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/catalogo.css">
+    <link rel="stylesheet" href="../assets/css/carrito.css">
+    <link rel="shortcut icon" href="../assets/iconos/logo.png" type="image/x-icon">
+</head>
+
+<body>
+    <!-- ========================================================= -->
+    <!-- INICIO: Encabezado principal de catálogo                  -->
+    <!-- ========================================================= -->
+    <header class="encabezado-principal" id="inicio">
+        <div id="contenedor-navbar"></div>
+
+        <section class="seccion-hero-catalogo d-flex align-items-center">
+            <div class="container py-5">
+                <div class="row justify-content-center justify-content-lg-start">
+                    <div class="col-12 col-lg-8 col-xxl-7">
+                        <div class="contenido-hero-catalogo">
+                            <p class="etiqueta-hero mb-3">Publicaciones activas</p>
+                            <h1 class="titulo-principal titulo-principal-catalogo efecto-glitch" data-text="CATÁLOGO">
+                                CATÁLOGO
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
+    <!-- ========================================================= -->
+    <!-- FIN: Encabezado principal de catálogo                     -->
+    <!-- ========================================================= -->
+
+    <!-- ========================================================= -->
+    <!-- INICIO: Contenido principal                               -->
+    <!-- ========================================================= -->
+    <main class="seccion-catalogo py-5 py-lg-6" id="catalogo">
+
+        <!-- ========================================================= -->
+        <!-- INICIO: Filtro de categorías                              -->
+        <!-- ========================================================= -->
+        <div class="filtro-wrapper px-3 pb-4">
+            <nav class="filtro-categorias" aria-label="Filtrar productos por categoría">
+                <button class="filtro-btn filtro-btn--activo" data-categoria="Todos" type="button" aria-pressed="true">Todos</button>
+                <button class="filtro-btn" data-categoria="Camisetas" type="button" aria-pressed="false">Camisetas</button>
+                <button class="filtro-btn" data-categoria="Chaquetas" type="button" aria-pressed="false">Chaquetas</button>
+                <button class="filtro-btn" data-categoria="Pantalones" type="button" aria-pressed="false">Pantalones</button>
+                <button class="filtro-btn" data-categoria="Calzado" type="button" aria-pressed="false">Calzado</button>
+                <button class="filtro-btn" data-categoria="Accesorios" type="button" aria-pressed="false">Accesorios</button>
+            </nav>
+        </div>
+        <!-- ========================================================= -->
+        <!-- FIN: Filtro de categorías                                 -->
+        <!-- ========================================================= -->
+
+        <div class="contenedor-flex p-3">
+
+            <!-- ===================================================== -->
+            <!-- INICIO: Productos                                     -->
+            <!-- ===================================================== -->
+            <section class="row g-4 mb-5" id="contenedor-productos-catalogo" aria-label="Productos del catálogo">
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Chaquetas">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/chaqueta-eclipse.png" alt="Chaqueta cyberpunk negra">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Chaquetas</span>
+                            <h3 class="nombre-producto">Chaqueta Eclipse</h3>
+                            <p class="descripcion-producto">Chaqueta urbana con acabado oscuro y estética futurista.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 220.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Accesorios">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/gafas-neon-grid.png" alt="Gafas oscuras futuristas">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Accesorios</span>
+                            <h3 class="nombre-producto">Gafas Neon</h3>
+                            <p class="descripcion-producto">Accesorio de impacto con estética nocturna y urbana.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 75.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Camisetas">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/camiseta-pulse.png" alt="Camiseta blanca oversized">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Camisetas</span>
+                            <h3 class="nombre-producto">Camiseta Pulse</h3>
+                            <p class="descripcion-producto">Silueta oversized con identidad visual minimal cyber.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 95.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Pantalones">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/pantalon-vector.png" alt="Pantalón negro urbano">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Pantalones</span>
+                            <h3 class="nombre-producto">Pantalón Vector</h3>
+                            <p class="descripcion-producto">Diseño funcional con cortes técnicos y carácter industrial.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 180.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Camisetas">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/camiseta-signal.png" alt="Camiseta negra estampada">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Camisetas</span>
+                            <h3 class="nombre-producto">Camiseta Signal</h3>
+                            <p class="descripcion-producto">Estampado gráfico inspirado en señales digitales y glitch.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 89.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Calzado">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/botas-reactor.png" alt="Tenis urbanos de diseño futurista">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Calzado</span>
+                            <h3 class="nombre-producto">Botas Reactor</h3>
+                            <p class="descripcion-producto">Calzado robusto para completar outfits de inspiración techwear.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 260.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Chaquetas">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/chaqueta-nova.png" alt="Chaqueta de cuero oscura">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Chaquetas</span>
+                            <h3 class="nombre-producto">Chaqueta Nova</h3>
+                            <p class="descripcion-producto">Prenda protagonista con presencia marcada y acabado premium.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 240.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Accesorios">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/mochila-kernel.png" alt="Mochila negra moderna">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Accesorios</span>
+                            <h3 class="nombre-producto">Mochila Kernel</h3>
+                            <p class="descripcion-producto">Mochila compacta para movilidad urbana con carácter tecnológico.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 145.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Pantalones">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/pantalon-static.png" alt="Pantalón amplio negro">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Pantalones</span>
+                            <h3 class="nombre-producto">Pantalón Static</h3>
+                            <p class="descripcion-producto">Caída amplia y diseño experimental para looks de alto contraste.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 170.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-4" data-categoria="Accesorios">
+                    <article class="tarjeta-producto">
+                        <img src="../assets/img/productos/arnes-espectra.png" alt="Accesorios de moda cyberpunk">
+                        <div class="contenido-tarjeta-producto">
+                            <span class="categoria-producto">Accesorios</span>
+                            <h3 class="nombre-producto">Arnés Spectra</h3>
+                            <p class="descripcion-producto">Pieza visual para potenciar la identidad cyberpunk del outfit.</p>
+                            <div class="pie-producto">
+                                <span class="precio-producto">$ 110.000</span>
+                                <button class="boton-carrito" type="button">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="sin-resultados col-12" id="sin-resultados" hidden aria-live="polite"></p>
+            </section>
+            <!-- ===================================================== -->
+            <!-- FIN: Productos                                       -->
+            <!-- ===================================================== -->
+
+            <!-- ===================================================== -->
+            <!-- INICIO: Carrito de compras                            -->
+            <!-- ===================================================== -->
+            <section class="carrito p-3" id="carrito" aria-label="Carrito de compras">
+
+                <h2 class="carrito__titulo">
+                    TU CARRITO <span class="carrito__contador" id="cartCounter">0</span>
+                </h2>
+
+                <div class="carrito__contenido">
+                    <p class="carrito__mensaje-vacio" id="emptyCartMessage">
+                        Tu carrito está vacío. Agrega productos desde el catálogo.
+                    </p>
+
+                    <ul class="agregar" id="listAddProducts"></ul>
+                </div>
+
+                <div class="total">
+                    <p class="total__total">TOTAL:</p>
+                    <p class="total__total total--precio-color">
+                        $ <span id="totalCounter">0,00</span>
+                    </p>
+                </div>
+
+                <button class="compra__boton" id="completePurchase" type="button">
+                    <i class="fa-regular fa-credit-card"></i> Finalizar compra
+                </button>
+
+            </section>
+            <!-- ===================================================== -->
+            <!-- FIN: Carrito de compras                               -->
+            <!-- ===================================================== -->
+
+        </div>
+
+    </main>
+    <!-- ========================================================= -->
+    <!-- FIN: Contenido principal                                  -->
+    <!-- ========================================================= -->
+
+    <div id="contenedor-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/paginas/catalogo.js"></script>
+    <script src="../assets/js/paginas/carrito.js"></script>
+
+</body>
+
+</html>

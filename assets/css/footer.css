@@ -1,0 +1,53 @@
+/* =========================================================
+   PIE DE PAGINA
+   ========================================================= */
+.pie-pagina {
+    position: relative;
+    background:
+        linear-gradient(180deg, rgba(4, 1, 10, 0.7), rgba(12, 2, 26, 0.96)),
+        radial-gradient(circle at top, rgba(0, 255, 255, 0.08), transparent 45%);
+    border-top: 1px solid rgba(0, 255, 255, 0.18);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.logo-full-footer {
+  height: 160px;
+  width: auto;
+  filter: brightness(8) 
+            drop-shadow(0 0 10px #148088)
+            drop-shadow(0 0 5px #00f7ff);
+}
+
+
+
+.encabezado-footer {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-neon-cian);
+}
+
+.texto-footer,
+.creditos-footer,
+.lista-footer a {
+    color: #c5bdd1;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    text-decoration: none;
+}
+
+.lista-footer {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.lista-footer a:hover,
+.lista-footer a:focus-visible {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
+}
+
+#btn-admin {
+    color: black;
+}
