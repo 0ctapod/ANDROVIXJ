@@ -58,9 +58,15 @@ function obtenerHeaders() {
     };
 }
 
+// ── Cache de productos en memoria ────────────────────────────────────────────
+// Evita guardar datos con comillas u otros caracteres especiales en atributos HTML.
+
+const cachProductos = new Map();
+
 // ── Lista de productos ───────────────────────────────────────────────────────
 
 function crearFilaProducto(producto) {
+    cachProductos.set(String(producto.idProducto), producto);
     const categoria = formatearCategoria(producto.categoria);
     return `
         <div class="producto-admin-item" data-id="${producto.idProducto}">
@@ -76,19 +82,12 @@ function crearFilaProducto(producto) {
                 <button
                     class="boton-editar-producto"
                     data-id="${producto.idProducto}"
-                    data-nombre="${producto.nombre}"
-                    data-categoria="${producto.categoria}"
-                    data-precio="${producto.precio}"
-                    data-stock="${producto.stock}"
-                    data-imagen="${producto.imagenUrl}"
-                    data-descripcion="${producto.descripcion}"
                     aria-label="Editar ${producto.nombre}">
                     <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
                 </button>
                 <button
                     class="boton-eliminar-producto"
                     data-id="${producto.idProducto}"
-                    data-nombre="${producto.nombre}"
                     aria-label="Eliminar ${producto.nombre}">
                     <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
                 </button>
@@ -133,15 +132,16 @@ function renderizarListaProductos(contenedor, productos) {
 let productoEnEdicion = null;
 
 function activarModoEdicion(boton) {
-    const d = boton.dataset;
-    productoEnEdicion = { id: d.id };
+    const producto = cachProductos.get(boton.dataset.id);
+    if (!producto) return;
+    productoEnEdicion = { id: producto.idProducto };
 
-    document.getElementById("inputNombreProducto").value      = d.nombre;
-    document.getElementById("inputCategoriaProducto").value   = d.categoria;
-    document.getElementById("inputPrecioProducto").value      = d.precio;
-    document.getElementById("inputStockProducto").value       = d.stock;
-    document.getElementById("inputImagenProducto").value      = d.imagen;
-    document.getElementById("inputDescripcionProducto").value = d.descripcion;
+    document.getElementById("inputNombreProducto").value      = producto.nombre;
+    document.getElementById("inputCategoriaProducto").value   = producto.categoria;
+    document.getElementById("inputPrecioProducto").value      = producto.precio;
+    document.getElementById("inputStockProducto").value       = producto.stock;
+    document.getElementById("inputImagenProducto").value      = producto.imagenUrl;
+    document.getElementById("inputDescripcionProducto").value = producto.descripcion;
 
     document.getElementById("boton-submit-admin").textContent       = "Actualizar producto";
     document.getElementById("boton-cancelar-edicion").hidden        = false;
@@ -162,7 +162,9 @@ function cancelarEdicion() {
 
 // ── Eliminación ──────────────────────────────────────────────────────────────
 
-async function eliminarProducto(id, nombre) {
+async function eliminarProducto(id) {
+    const producto = cachProductos.get(id);
+    const nombre   = producto?.nombre ?? "este producto";
     const confirmado = await mostrarConfirmacionModal(
         `¿Seguro que deseas eliminar <strong>${nombre}</strong>?<br>
          Esta acción no se puede deshacer.`,
@@ -176,6 +178,14 @@ async function eliminarProducto(id, nombre) {
             method:  "DELETE",
             headers: obtenerHeaders()
         });
+
+        if (response.status === 409) {
+            await mostrarAlertaModal(
+                `<strong>${nombre}</strong> no puede eliminarse porque tiene pedidos asociados.`,
+                "warning"
+            );
+            return;
+        }
 
         if (!response.ok) throw new Error(response.status);
 
@@ -292,7 +302,7 @@ function inicializarListaProductos() {
         const botonEditar   = evento.target.closest(".boton-editar-producto");
 
         if (botonEliminar) {
-            eliminarProducto(botonEliminar.dataset.id, botonEliminar.dataset.nombre);
+            eliminarProducto(botonEliminar.dataset.id);
         }
         if (botonEditar) {
             activarModoEdicion(botonEditar);
