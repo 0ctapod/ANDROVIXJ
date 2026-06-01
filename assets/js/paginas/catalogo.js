@@ -1,43 +1,70 @@
 /*
  * =========================================================
- *  ANDROVIX-J | PRODUCTOS DINÁMICOS DEL CATÁLOGO
+ *  ANDROVIX-J | CATÁLOGO DE PRODUCTOS
  * =========================================================
- *  Este archivo solo se encarga de:
- *  - Leer productos creados desde administrador.
- *  - Insertarlos en el catálogo.
+ *  - Carga productos desde GET /productos (API REST).
+ *  - Los inserta en el catálogo con sus datos reales.
+ *  - Gestiona los filtros por categoría.
  *
- *  La lógica del carrito vive en carrito.js.
+ *  El carrito sigue viviendo en carrito.js (sin cambios en
+ *  esa lógica, salvo que finalizarCompra ya llama a la API).
+ *
+ *  Constantes globales: API_URL viene de config.js
  * =========================================================
  */
 
-const CLAVE_PRODUCTOS = "androvix_productos";
+// ── Utilidades ───────────────────────────────────────────────────────────────
 
-function obtenerProductosGuardados() {
-    const productosGuardados = localStorage.getItem(CLAVE_PRODUCTOS);
+/**
+ * La API devuelve categorías en mayúsculas ("CAMISETAS").
+ * Los botones de filtro y el CSS esperan el formato capitalizado ("Camisetas").
+ * Esta función convierte entre ambos.
+ */
+const FORMATO_CATEGORIA = {
+    CAMISETAS:  "Camisetas",
+    CHAQUETAS:  "Chaquetas",
+    PANTALONES: "Pantalones",
+    CALZADO:    "Calzado",
+    ACCESORIOS: "Accesorios"
+};
 
-    if (!productosGuardados) {
-        return [];
-    }
+function formatearCategoria(categoria) {
+    return FORMATO_CATEGORIA[categoria] || categoria;
+}
 
-    try {
-        return JSON.parse(productosGuardados);
-    } catch (error) {
-        console.error("Error al leer productos desde localStorage:", error);
-        return [];
-    }
+/**
+ * La API puede devolver una URL completa o solo el nombre del archivo.
+ * Esta función normaliza ambos casos.
+ */
+function obtenerRutaImagen(imagenUrl) {
+    if (!imagenUrl) return "../assets/img/placeholder.jpg";
+    if (imagenUrl.startsWith("http")) return imagenUrl;
+    return `../assets/img/productos/${imagenUrl}`;
 }
 
 function formatearPrecio(precio) {
     return `$ ${Number(precio).toLocaleString("es-CO")}`;
 }
 
+// ── Construcción de tarjetas ─────────────────────────────────────────────────
+
+/**
+ * Genera el HTML de una tarjeta de producto.
+ *
+ * Se agrega data-producto-id con el ID real de la BD.
+ * carrito.js lo lee para asociar cada ítem del carrito
+ * con su producto real al momento de finalizar la compra.
+ */
 function crearCardProducto(producto) {
+    const categoriaFormateada = formatearCategoria(producto.categoria);
+    const rutaImagen          = obtenerRutaImagen(producto.imagenUrl);
+
     return `
-        <div class="col-12 col-md-6 col-xl-4" data-categoria="${producto.categoria}">
-            <article class="tarjeta-producto">
-                <img src="../assets/img/productos/${producto.imagen}" alt="${producto.nombre}">
+        <div class="col-12 col-md-6 col-xl-4" data-categoria="${categoriaFormateada}">
+            <article class="tarjeta-producto" data-producto-id="${producto.idProducto}">
+                <img src="${rutaImagen}" alt="${producto.nombre}">
                 <div class="contenido-tarjeta-producto">
-                    <span class="categoria-producto">${producto.categoria}</span>
+                    <span class="categoria-producto">${categoriaFormateada}</span>
                     <h3 class="nombre-producto">${producto.nombre}</h3>
                     <p class="descripcion-producto">${producto.descripcion}</p>
                     <div class="pie-producto">
@@ -50,25 +77,58 @@ function crearCardProducto(producto) {
     `;
 }
 
-function renderizarProductosDinamicos() {
+// ── Carga de productos desde la API ─────────────────────────────────────────
+
+async function renderizarProductos() {
     const contenedor = document.getElementById("contenedor-productos-catalogo");
+    if (!contenedor) return;
 
-    if (!contenedor) {
-        return;
+    // Estado de carga: le avisamos al usuario que estamos trayendo los productos
+    contenedor.insertAdjacentHTML("beforeend", `
+        <div id="cargando-productos" class="col-12 text-center py-4">
+            <p class="text-secondary">Cargando productos...</p>
+        </div>
+    `);
+
+    try {
+        const response = await fetch(`${API_URL}/productos`);
+
+        if (!response.ok) {
+            throw new Error(`Error del servidor: ${response.status}`);
+        }
+
+        const productos = await response.json();
+
+        // Removemos el indicador de carga antes de insertar las tarjetas
+        document.getElementById("cargando-productos")?.remove();
+
+        if (productos.length === 0) {
+            contenedor.insertAdjacentHTML("beforeend", `
+                <div class="col-12 text-center py-4">
+                    <p class="text-secondary">No hay productos disponibles por el momento.</p>
+                </div>
+            `);
+            return;
+        }
+
+        contenedor.insertAdjacentHTML(
+            "beforeend",
+            productos.map(crearCardProducto).join("")
+        );
+
+    } catch (error) {
+        document.getElementById("cargando-productos")?.remove();
+        console.error("Error al cargar productos:", error);
+
+        contenedor.insertAdjacentHTML("beforeend", `
+            <div class="col-12 text-center py-4">
+                <p class="text-danger">No se pudieron cargar los productos. ¿Está corriendo el backend?</p>
+            </div>
+        `);
     }
-
-    const productos = obtenerProductosGuardados();
-
-    if (productos.length === 0) {
-        return;
-    }
-
-    contenedor.insertAdjacentHTML("beforeend", productos.map(crearCardProducto).join(""));
 }
 
-// ---------------------------------------------------------
-// FILTRO DE CATEGORÍAS
-// ---------------------------------------------------------
+// ── Filtros por categoría ────────────────────────────────────────────────────
 
 function aplicarFiltro(categoria) {
     const cols = document.querySelectorAll("#contenedor-productos-catalogo > [data-categoria]");
@@ -104,12 +164,12 @@ function inicializarFiltros() {
         });
     });
 
-    // Leer ?categoria= de la URL para activar filtro automáticamente
-    const params = new URLSearchParams(window.location.search);
-    const categoriaParam = params.get("categoria");
+    // Activar filtro automático si viene ?categoria= en la URL
+    const params       = new URLSearchParams(window.location.search);
+    const categoriaUrl = params.get("categoria");
 
-    if (categoriaParam) {
-        const botonTarget = [...botones].find(b => b.dataset.categoria === categoriaParam);
+    if (categoriaUrl) {
+        const botonTarget = [...botones].find(b => b.dataset.categoria === categoriaUrl);
         if (botonTarget) {
             botonTarget.click();
             return;
@@ -119,7 +179,9 @@ function inicializarFiltros() {
     aplicarFiltro("Todos");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    renderizarProductosDinamicos();
-    inicializarFiltros();
+// ── Inicialización ───────────────────────────────────────────────────────────
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await renderizarProductos();  // esperar a que los productos estén en el DOM
+    inicializarFiltros();          // luego aplicar el filtro (necesita las tarjetas ya renderizadas)
 });

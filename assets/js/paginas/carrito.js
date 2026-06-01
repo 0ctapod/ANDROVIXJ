@@ -9,8 +9,89 @@
  *  - Calcular total automáticamente.
  *  - Persistir carrito con localStorage.
  *  - Restaurar carrito al recargar la página.
+ *  - Finalizar compra via API REST.
  * =========================================================
  */
+
+// ── Modales personalizados ────────────────────────────────────────────────────
+// Reemplazan alert() y confirm() del browser para mantener
+// la estética cyberpunk de la página.
+
+const MODAL_CONFIG = {
+    success: { icono: "fa-solid fa-circle-check",        titulo: "¡Listo!"          },
+    error:   { icono: "fa-solid fa-circle-xmark",        titulo: "Error"             },
+    warning: { icono: "fa-solid fa-triangle-exclamation", titulo: "Atención"         },
+    confirm: { icono: "fa-solid fa-cart-shopping",        titulo: "Confirmar compra" }
+};
+
+/**
+ * Muestra un modal de notificación (reemplaza alert).
+ * Devuelve una Promise que se resuelve al presionar Aceptar.
+ */
+function mostrarAlertaModal(mensaje, tipo = "success") {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-androvix-overlay";
+        overlay.innerHTML = `
+            <div class="modal-androvix modal-androvix--${tipo}" role="alertdialog" aria-modal="true">
+                <div class="modal-androvix__icono">
+                    <i class="${MODAL_CONFIG[tipo].icono}" aria-hidden="true"></i>
+                </div>
+                <h2 class="modal-androvix__titulo">${MODAL_CONFIG[tipo].titulo}</h2>
+                <p class="modal-androvix__mensaje">${mensaje}</p>
+                <div class="modal-androvix__botones">
+                    <button class="modal-androvix__btn modal-androvix__btn--aceptar" autofocus>
+                        Aceptar
+                    </button>
+                </div>
+            </div>`;
+
+        document.body.appendChild(overlay);
+        overlay.querySelector(".modal-androvix__btn--aceptar").addEventListener("click", () => {
+            overlay.remove();
+            resolve();
+        });
+    });
+}
+
+/**
+ * Muestra un modal de confirmación (reemplaza confirm).
+ * Devuelve una Promise<boolean>: true si confirma, false si cancela.
+ */
+function mostrarConfirmacionModal(mensaje) {
+    return new Promise(resolve => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-androvix-overlay";
+        overlay.innerHTML = `
+            <div class="modal-androvix modal-androvix--confirm" role="alertdialog" aria-modal="true">
+                <div class="modal-androvix__icono">
+                    <i class="${MODAL_CONFIG.confirm.icono}" aria-hidden="true"></i>
+                </div>
+                <h2 class="modal-androvix__titulo">${MODAL_CONFIG.confirm.titulo}</h2>
+                <p class="modal-androvix__mensaje">${mensaje}</p>
+                <div class="modal-androvix__botones">
+                    <button class="modal-androvix__btn modal-androvix__btn--cancelar" data-accion="cancelar">
+                        Cancelar
+                    </button>
+                    <button class="modal-androvix__btn modal-androvix__btn--confirmar" data-accion="confirmar" autofocus>
+                        Confirmar
+                    </button>
+                </div>
+            </div>`;
+
+        document.body.appendChild(overlay);
+        overlay.querySelector("[data-accion='confirmar']").addEventListener("click", () => {
+            overlay.remove();
+            resolve(true);
+        });
+        overlay.querySelector("[data-accion='cancelar']").addEventListener("click", () => {
+            overlay.remove();
+            resolve(false);
+        });
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
     const CLAVE_CARRITO = "androvix_carrito";
@@ -84,15 +165,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function obtenerDatosProducto(tarjetaProducto) {
-        const imagen = tarjetaProducto.querySelector("img")?.getAttribute("src") || "";
-        const categoria = tarjetaProducto.querySelector(".categoria-producto")?.textContent.trim() || "Producto";
-        const nombre = tarjetaProducto.querySelector(".nombre-producto")?.textContent.trim() || "Producto sin nombre";
+        const imagen      = tarjetaProducto.querySelector("img")?.getAttribute("src") || "";
+        const categoria   = tarjetaProducto.querySelector(".categoria-producto")?.textContent.trim() || "Producto";
+        const nombre      = tarjetaProducto.querySelector(".nombre-producto")?.textContent.trim() || "Producto sin nombre";
         const descripcion = tarjetaProducto.querySelector(".descripcion-producto")?.textContent.trim() || "";
         const precioTexto = tarjetaProducto.querySelector(".precio-producto")?.textContent.trim() || "$ 0";
-        const precio = convertirPrecioANumero(precioTexto);
+        const precio      = convertirPrecioANumero(precioTexto);
+
+        // idProducto es el ID real de la BD, embebido en la tarjeta por catalogo.js.
+        // Es necesario para crear el ProductoPedido al finalizar la compra.
+        // Los productos hardcodeados en el HTML no tienen este atributo (serán null).
+        const idProducto  = tarjetaProducto.dataset.productoId
+            ? parseInt(tarjetaProducto.dataset.productoId)
+            : null;
 
         return {
-            id: crearIdProducto(nombre, categoria),
+            id: crearIdProducto(nombre, categoria),  // clave local para deduplicar
+            idProducto,                               // ID real de la BD para la API
             imagen,
             categoria,
             nombre,
@@ -213,23 +302,110 @@ document.addEventListener("DOMContentLoaded", () => {
         renderizarCarrito();
     }
 
-    function finalizarCompra() {
+    async function finalizarCompra() {
         if (carrito.length === 0) {
-            alert("Tu carrito está vacío");
+            await mostrarAlertaModal("Tu carrito está vacío.", "warning");
             return;
         }
 
-        const confirmarCompra = confirm("¿Deseas finalizar la compra?");
-
-        if (!confirmarCompra) {
+        // 1. Verificar que el usuario haya iniciado sesión
+        const token = localStorage.getItem(CLAVE_TOKEN);
+        if (!token) {
+            await mostrarAlertaModal(
+                "Debes iniciar sesión para finalizar tu compra.",
+                "warning"
+            );
+            window.location.href = "login.html";
             return;
         }
 
-        alert("Compra finalizada con éxito");
+        const sesion = JSON.parse(localStorage.getItem(CLAVE_SESION) || "{}");
 
-        carrito = [];
-        guardarCarrito();
-        renderizarCarrito();
+        // 2. Filtrar solo productos que tienen ID real de la BD
+        const itemsValidos = carrito.filter(item => item.idProducto !== null);
+        if (itemsValidos.length === 0) {
+            await mostrarAlertaModal(
+                "Los productos del carrito no están disponibles para compra en este momento.",
+                "warning"
+            );
+            return;
+        }
+
+        // 3. Pedir confirmación al usuario con el modal personalizado
+        const totalItems = itemsValidos.reduce((sum, i) => sum + i.cantidad, 0);
+        const totalPrecio = itemsValidos.reduce((sum, i) => sum + i.precio * i.cantidad, 0);
+        const confirmado = await mostrarConfirmacionModal(
+            `Estás a punto de realizar un pedido con <strong>${totalItems} artículo${totalItems !== 1 ? "s" : ""}</strong>
+             por un total de <strong>$ ${totalPrecio.toLocaleString("es-CO")}</strong>.<br><br>
+             ¿Deseas continuar?`
+        );
+        if (!confirmado) return;
+
+        botonFinalizarCompra.disabled = true;
+        botonFinalizarCompra.textContent = "Procesando...";
+
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            };
+
+            // 4. Crear el pedido en el backend
+            const pedidoResponse = await fetch(`${API_URL}/pedidos`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify({
+                    fecha:     new Date().toISOString().slice(0, 19),
+                    total:     totalPrecio,
+                    estado:    "PENDIENTE",
+                    usuarioId: parseInt(sesion.idUsuario)
+                })
+            });
+
+            if (!pedidoResponse.ok) {
+                throw new Error(`Error al crear el pedido: ${pedidoResponse.status}`);
+            }
+
+            const pedido = await pedidoResponse.json();
+
+            // 5. Registrar cada producto del carrito en el pedido
+            for (const item of itemsValidos) {
+                const itemResponse = await fetch(`${API_URL}/producto-pedido`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({
+                        cantidad:       item.cantidad,
+                        precioUnitario: item.precio,
+                        productoId:     item.idProducto,
+                        pedidoId:       pedido.idPedido
+                    })
+                });
+
+                if (!itemResponse.ok) {
+                    console.warn(`No se pudo registrar el producto ${item.nombre} en el pedido.`);
+                }
+            }
+
+            // 6. Confirmar al usuario y limpiar el carrito
+            await mostrarAlertaModal(
+                "Tu pedido ha sido registrado con éxito.<br>Pronto recibirás información sobre el envío.",
+                "success"
+            );
+            carrito = [];
+            guardarCarrito();
+            renderizarCarrito();
+
+        } catch (error) {
+            console.error("Error al finalizar compra:", error);
+            await mostrarAlertaModal(
+                "Hubo un error al procesar tu compra. Por favor intenta de nuevo.",
+                "error"
+            );
+
+        } finally {
+            botonFinalizarCompra.disabled = false;
+            botonFinalizarCompra.textContent = "Finalizar compra";
+        }
     }
 
     function actualizarResumenCarrito() {
