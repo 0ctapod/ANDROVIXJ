@@ -4,7 +4,7 @@
 // POST /auth/register → { token } (201 Created)
 // =========================================================
 
-const API_URL = "http://localhost:8080";
+// API_URL viene de config.js
 
 const formularioRegistro = document.getElementById("formularioRegistro");
 const alertaRegistro = document.getElementById("alertaRegistro");

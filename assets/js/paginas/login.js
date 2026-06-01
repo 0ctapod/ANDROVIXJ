@@ -1,41 +1,21 @@
 // =========================================================
 // Login de usuarios ANDROVIX-J
 // ---------------------------------------------------------
-// Función: validar el formulario de login, buscar el usuario
-// en localStorage y gestionar la sesión activa.
-//
 // Flujo:
-// 1. El usuario envía el formulario.
-// 2. Se validan email y contraseña (formato).
-// 3. Se busca el email en "usuariosAndrovix" (localStorage).
-// 4. Si existe, se compara la contraseña.
-// 5. Si coincide → se guarda la sesión en sessionStorage
-//    y se redirige al catálogo.
-// 6. Si no coincide → se muestra un mensaje de error.
+// 1. Si ya hay token en localStorage → redirigir directo.
+// 2. El usuario envía el formulario.
+// 3. Se validan email y contraseña (formato local).
+// 4. POST /auth/login → { token, idUsuario, nombreCompleto, rol }
+// 5. Se guarda el token y los datos de sesión en localStorage.
+// 6. Se redirige según el rol: ADMIN → administrador, CLIENTE → inicio.
 // =========================================================
 
-// ---------------------------------------------------------
-// CONSTANTES
-// ---------------------------------------------------------
+// API_URL, CLAVE_TOKEN y CLAVE_SESION vienen de config.js
 
-/** Clave usada en registro.js para guardar los usuarios. */
-const CLAVE_USUARIOS = "usuariosAndrovix";
+// ── Referencias al DOM ───────────────────────────────────────────────────────
 
-/**
- * Clave en sessionStorage para guardar el usuario activo.
- * sessionStorage se borra automáticamente al cerrar el tab,
- * lo que es más seguro que localStorage para sesiones.
- */
-const CLAVE_SESION = "androvix_sesion";
-
-/** Email del administrador — determina la redirección post-login. */
-const EMAIL_ADMIN = "admin.androvixj@email.com";
-
-// ---------------------------------------------------------
-// REFERENCIAS AL DOM
-// ---------------------------------------------------------
-const formularioLogin  = document.getElementById("formularioLogin");
-const alertaLogin      = document.getElementById("alertaLogin");
+const formularioLogin = document.getElementById("formularioLogin");
+const alertaLogin     = document.getElementById("alertaLogin");
 
 const campos = {
     email: {
@@ -50,19 +30,13 @@ const campos = {
     }
 };
 
-// ---------------------------------------------------------
-// EXPRESIONES REGULARES
-// ---------------------------------------------------------
 const expresiones = {
-    email:    /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    // No se valida formato de password en login —
+    // el backend responde 403 si las credenciales son incorrectas.
 };
 
-// ---------------------------------------------------------
-// FUNCIONES DE UI — ESTADOS DE CAMPO
-// Estas funciones son idénticas a las de registro.js.
-// En el futuro, podrían moverse a un utils.js compartido.
-// ---------------------------------------------------------
+// ── Utilidades de UI ─────────────────────────────────────────────────────────
 
 function mostrarError(campo, mensaje) {
     campo.grupo.classList.remove("campo-correcto");
@@ -78,16 +52,6 @@ function mostrarCorrecto(campo) {
     campo.error.classList.remove("activo");
 }
 
-function limpiarEstadoCampo(campo) {
-    campo.grupo.classList.remove("campo-error", "campo-correcto");
-    campo.error.textContent = "";
-    campo.error.classList.remove("activo");
-}
-
-// ---------------------------------------------------------
-// FUNCIONES DE UI — ALERTA GENERAL
-// ---------------------------------------------------------
-
 function mostrarAlerta(mensaje, tipo = "danger") {
     alertaLogin.textContent = mensaje;
     alertaLogin.className = `alert alerta-${tipo} alerta-registro activo`;
@@ -98,11 +62,9 @@ function limpiarAlerta() {
     alertaLogin.className = "alert alerta-registro";
 }
 
-// ---------------------------------------------------------
-// FUNCIONES DE VALIDACIÓN DE FORMATO
-// Solo verifican que el campo tenga el formato correcto.
-// No comprueban si el usuario existe (eso es tarea del login).
-// ---------------------------------------------------------
+// ── Validaciones de formato ───────────────────────────────────────────────────
+// Solo verifican formato local — si las credenciales son correctas
+// lo decide el backend, no el frontend.
 
 function validarEmail() {
     const valor = campos.email.input.value.trim();
@@ -129,131 +91,115 @@ function validarPassword() {
         return false;
     }
 
-    if (!expresiones.password.test(valor)) {
-        mostrarError(campos.password, "Usa mínimo 8 caracteres, una mayúscula, una minúscula y un número.");
-        return false;
-    }
-
+    // En login NO validamos el formato de la contraseña.
+    // Si el formato es incorrecto, el backend responde 403 y
+    // mostramos "credenciales incorrectas" — sin dar pistas al usuario.
     mostrarCorrecto(campos.password);
     return true;
 }
 
 function validarFormulario() {
-    // Se evalúan los dos campos siempre (no con &&)
-    // para que ambos muestren su error al mismo tiempo.
+    // Se evalúan los dos siempre (no con &&) para mostrar
+    // ambos errores al mismo tiempo si los dos fallan.
     const emailValido    = validarEmail();
     const passwordValida = validarPassword();
-
     return emailValido && passwordValida;
 }
 
-// ---------------------------------------------------------
-// LÓGICA DE AUTENTICACIÓN
-// ---------------------------------------------------------
+// ── Gestión de sesión ────────────────────────────────────────────────────────
 
 /**
- * Lee el array de usuarios guardados en localStorage.
- * Devuelve [] si no hay nada o si el JSON está corrupto.
+ * Guarda el token JWT y los datos del usuario en localStorage.
+ * El token se usa en los headers de cada request autenticado.
+ * Los datos (nombre, rol) se usan en la UI sin volver a llamar al backend.
  */
-function obtenerUsuarios() {
-    const datos = localStorage.getItem(CLAVE_USUARIOS);
-
-    if (!datos) {
-        return [];
-    }
-
-    try {
-        const usuarios = JSON.parse(datos);
-        return Array.isArray(usuarios) ? usuarios : [];
-    } catch (error) {
-        console.error("Error al leer usuarios desde localStorage:", error);
-        return [];
-    }
+function guardarSesion(data) {
+    localStorage.setItem(CLAVE_TOKEN, data.token);
+    localStorage.setItem(CLAVE_SESION, JSON.stringify({
+        idUsuario:      data.idUsuario,
+        nombreCompleto: data.nombreCompleto,
+        email:          campos.email.input.value.trim().toLowerCase(),
+        rol:            data.rol
+    }));
 }
 
 /**
- * Busca un usuario por email (insensible a mayúsculas).
- * @param {string} email
- * @returns {object|undefined} El usuario encontrado o undefined.
+ * Si ya hay un token guardado, el usuario ya inició sesión.
+ * Lo mandamos directo según su rol sin mostrar el formulario.
  */
-function buscarUsuarioPorEmail(email) {
-    const usuarios = obtenerUsuarios();
-    return usuarios.find(usuario => usuario.email.toLowerCase() === email.toLowerCase());
+function redirigirSiHaySesion() {
+    const token = localStorage.getItem(CLAVE_TOKEN);
+    if (!token) return;
+
+    const sesion = JSON.parse(localStorage.getItem(CLAVE_SESION) || "{}");
+    const destino = sesion.rol === "ADMIN" ? "administrador.html" : "../index.html";
+    window.location.href = destino;
 }
 
-/**
- * Guarda los datos del usuario activo en sessionStorage.
- * NO guarda la contraseña — solo los datos necesarios
- * para identificar al usuario en otras páginas.
- * @param {object} usuario
- */
-function guardarSesion(usuario) {
-    const sesion = {
-        nombreCompleto: usuario.nombreCompleto,
-        email:          usuario.email
-    };
-    sessionStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
-}
+// ── Login contra la API ──────────────────────────────────────────────────────
 
-// ---------------------------------------------------------
-// MANEJADOR DEL SUBMIT
-// ---------------------------------------------------------
-
-function manejarLogin(evento) {
+async function manejarLogin(evento) {
     evento.preventDefault();
     limpiarAlerta();
 
-    // 1. Validar formato de los campos
     if (!validarFormulario()) {
         mostrarAlerta("Revisa los campos marcados antes de continuar.", "danger");
         return;
     }
 
-    const emailIngresado    = campos.email.input.value.trim().toLowerCase();
-    const passwordIngresada = campos.password.input.value;
+    const botonEnviar = formularioLogin.querySelector('[type="submit"]');
+    botonEnviar.disabled = true;
+    botonEnviar.textContent = "Ingresando...";
 
-    // 2. Buscar el usuario en localStorage
-    const usuarioEncontrado = buscarUsuarioPorEmail(emailIngresado);
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email:    campos.email.input.value.trim().toLowerCase(),
+                password: campos.password.input.value
+            })
+        });
 
-    if (!usuarioEncontrado) {
-        // El email no existe — mensaje genérico por seguridad
-        // (no decimos si es el email o la contraseña lo que falló)
-        mostrarAlerta("Credenciales incorrectas. Verifica tu email y contraseña.", "danger");
-        return;
+        if (response.ok) {
+            // 200 OK: credenciales correctas, el backend devuelve token + datos
+            const data = await response.json();
+            guardarSesion(data);
+
+            const esAdmin = data.rol === "ADMIN";
+            const destino = esAdmin ? "administrador.html" : "../index.html";
+            const mensaje = esAdmin
+                ? "Acceso de administrador concedido. Redirigiendo..."
+                : `¡Bienvenido de vuelta, ${data.nombreCompleto}! Redirigiendo...`;
+
+            mostrarAlerta(mensaje, "success");
+
+            setTimeout(() => {
+                window.location.href = destino;
+            }, 1800);
+
+        } else if (response.status === 403 || response.status === 401) {
+            // Credenciales incorrectas — mensaje genérico por seguridad
+            // (no decimos si es el email o la password lo que falló)
+            mostrarAlerta("Credenciales incorrectas. Verifica tu email y contraseña.", "danger");
+
+        } else {
+            mostrarAlerta("Error inesperado. Intenta de nuevo más tarde.", "danger");
+        }
+
+    } catch (error) {
+        // Solo llega aquí si hay fallo de red (backend apagado, sin internet)
+        console.error("Error de red al iniciar sesión:", error);
+        mostrarAlerta("No se pudo conectar con el servidor. ¿Está corriendo el backend en el puerto 8080?", "danger");
+
+    } finally {
+        botonEnviar.disabled = false;
+        botonEnviar.textContent = "Ingresar";
     }
-
-    // 3. Comparar contraseña
-    if (usuarioEncontrado.password !== passwordIngresada) {
-        mostrarAlerta("Credenciales incorrectas. Verifica tu email y contraseña.", "danger");
-        return;
-    }
-
-    // 4. Login exitoso — guardar sesión y redirigir
-    guardarSesion(usuarioEncontrado);
-
-    const esAdmin = usuarioEncontrado.email === EMAIL_ADMIN;
-    const destino  = esAdmin ? "administrador.html" : "../index.html";
-    const mensaje  = esAdmin
-        ? `Acceso de administrador concedido. Redirigiendo...`
-        : `¡Bienvenido de vuelta, ${usuarioEncontrado.nombreCompleto}! Redirigiendo...`;
-
-    mostrarAlerta(mensaje, "success");
-
-    setTimeout(() => {
-        window.location.href = destino;
-    }, 1800);
 }
 
-// ---------------------------------------------------------
-// VALIDACIÓN EN TIEMPO REAL (al salir de cada campo)
-// ---------------------------------------------------------
-campos.email.input.addEventListener("blur", validarEmail);
-campos.password.input.addEventListener("blur", validarPassword);
+// ── Toggle de visibilidad de contraseña ──────────────────────────────────────
 
-// ---------------------------------------------------------
-// TOGGLE DE VISIBILIDAD DE CONTRASEÑA
-// Mismo patrón que registro.js
-// ---------------------------------------------------------
 document.querySelectorAll("[data-password-toggle]").forEach(boton => {
     boton.addEventListener("click", () => {
         const idInput     = boton.dataset.passwordToggle;
@@ -262,52 +208,18 @@ document.querySelectorAll("[data-password-toggle]").forEach(boton => {
         const estaOculta  = inputTarget.type === "password";
 
         inputTarget.type = estaOculta ? "text" : "password";
-        icono.classList.toggle("fa-eye",       !estaOculta);
-        icono.classList.toggle("fa-eye-slash",  estaOculta);
+        icono.classList.toggle("fa-eye",      !estaOculta);
+        icono.classList.toggle("fa-eye-slash", estaOculta);
         boton.setAttribute("aria-label", estaOculta ? "Ocultar contraseña" : "Mostrar contraseña");
     });
 });
 
-// ---------------------------------------------------------
-// INICIALIZACIÓN
-// ---------------------------------------------------------
+// ── Validación en tiempo real ─────────────────────────────────────────────────
 
-/**
- * Si el usuario ya tiene sesión activa, lo mandamos
- * directamente al catálogo sin mostrarle el login.
- */
-function redirigirSiHaySesion() {
-    const sesion = sessionStorage.getItem(CLAVE_SESION);
+campos.email.input.addEventListener("blur", validarEmail);
+campos.password.input.addEventListener("blur", validarPassword);
 
-    if (sesion) {
-        window.location.href = "../index.html";
-    }
-}
-
-// ---------------------------------------------------------
-// USUARIO ADMINISTRADOR — SEED
-// ---------------------------------------------------------
-
-/**
- * Inserta el usuario admin en localStorage si todavía no existe.
- * Se ejecuta una sola vez; no sobreescribe si ya está registrado.
- */
-function sembrarUsuarioAdmin() {
-    const usuarios = obtenerUsuarios();
-    const adminExiste = usuarios.some(u => u.email === EMAIL_ADMIN);
-    if (adminExiste) return;
-
-    usuarios.push({
-        nombreCompleto: "Admin ANDROVIX-J",
-        telefono: "0000000000",
-        email: EMAIL_ADMIN,
-        password: "PaseDeAdministrador100"
-    });
-    localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(usuarios));
-}
-
-// Ejecutamos al cargar la página
-sembrarUsuarioAdmin();
-redirigirSiHaySesion();
+// ── Inicialización ───────────────────────────────────────────────────────────
 
 formularioLogin.addEventListener("submit", manejarLogin);
+redirigirSiHaySesion();

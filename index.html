@@ -282,35 +282,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        (function () {
-            // Icono de usuario / cerrar sesión
-            const sesion = sessionStorage.getItem("androvix_sesion");
-            const icono = document.getElementById("icono-usuario");
-            if (icono && sesion) {
-                icono.setAttribute("aria-label", "Cerrar sesión");
-                icono.querySelector("i").className = "fa-solid fa-right-from-bracket fs-5";
-                icono.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    sessionStorage.removeItem("androvix_sesion");
-                    window.location.reload();
-                });
-            }
-
-            // Badge del carrito
-            const badge = document.getElementById("cartCounterNavBar");
-            if (badge) {
-                try {
-                    const carrito = JSON.parse(localStorage.getItem("androvix_carrito") || "[]");
-                    const total = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-                    badge.textContent = total;
-                    badge.hidden = total === 0;
-                } catch {
-                    badge.hidden = true;
-                }
-            }
-        })();
-    </script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/components.js"></script>
 
 </body>
 
