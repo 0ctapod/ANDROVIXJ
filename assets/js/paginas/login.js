@@ -119,6 +119,7 @@ function guardarSesion(data) {
         idUsuario:      data.idUsuario,
         nombreCompleto: data.nombreCompleto,
         email:          campos.email.input.value.trim().toLowerCase(),
+        telefono:       data.telefono,
         rol:            data.rol
     }));
 }

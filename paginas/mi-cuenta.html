@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel de usuario de ANDROVIX-J. Consulta tus datos y el historial de pedidos.">
+    <title>Mi Cuenta | ANDROVIX-J</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/mi-cuenta.css">
+    <link rel="shortcut icon" href="../assets/iconos/logo.png" type="image/x-icon">
+</head>
+
+<body>
+    <header class="encabezado-principal" id="inicio">
+        <div id="contenedor-navbar"></div>
+
+        <section class="seccion-hero-cuenta d-flex align-items-center">
+            <div class="container py-5">
+                <div class="row justify-content-center justify-content-lg-start">
+                    <div class="col-12 col-lg-8 col-xxl-7">
+                        <p class="etiqueta-hero mb-3">Panel de usuario</p>
+                        <h1 class="titulo-principal titulo-principal-cuenta efecto-glitch" data-text="MI CUENTA">
+                            MI CUENTA
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <main class="seccion-cuenta py-5 py-lg-6">
+        <div class="container">
+
+            <!-- Datos del usuario -->
+            <div class="row justify-content-center mb-4 mb-lg-5">
+                <div class="col-lg-10 text-center">
+                    <p class="subtitulo-seccion mb-2">Bienvenido</p>
+                    <h2 class="titulo-seccion efecto-glitch" data-text="TUS DATOS">TUS DATOS</h2>
+                    <span class="linea-destacada" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div class="panel-cuenta mb-5">
+                <div class="tarjeta-cuenta" id="tarjeta-usuario">
+                    <div class="tarjeta-cuenta__icono" aria-hidden="true">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <div class="tarjeta-cuenta__info">
+                        <p class="tarjeta-cuenta__nombre" id="cuenta-nombre">—</p>
+                        <p class="tarjeta-cuenta__email" id="cuenta-email">—</p>
+                        <p class="tarjeta-cuenta__telefono" id="cuenta-telefono">—</p>
+                        <span class="tarjeta-cuenta__rol" id="cuenta-rol">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial de pedidos -->
+            <div class="row justify-content-center mb-4 mb-lg-5">
+                <div class="col-lg-10 text-center">
+                    <p class="subtitulo-seccion mb-2">Actividad</p>
+                    <h2 class="titulo-seccion efecto-glitch" data-text="MIS PEDIDOS">MIS PEDIDOS</h2>
+                    <span class="linea-destacada" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div class="panel-cuenta">
+                <div id="lista-pedidos" class="lista-pedidos">
+                    <p class="lista-pedidos__estado">Cargando pedidos...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="contenedor-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/components.js"></script>
+    <script src="../assets/js/paginas/mi-cuenta.js"></script>
+</body>
+
+</html>

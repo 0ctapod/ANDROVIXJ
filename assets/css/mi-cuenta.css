@@ -1,0 +1,249 @@
+/* =========================================================
+   HERO DE MI CUENTA
+   ========================================================= */
+.seccion-hero-cuenta {
+    min-height: 58vh;
+    padding-top: 6.5rem;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.82)),
+        url("../img/fondo-admin.png") center / cover no-repeat fixed;
+}
+
+.titulo-principal-cuenta {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    color: var(--color-texto);
+    text-shadow: 0 0 24px rgba(201, 247, 255, 0.18);
+}
+
+
+/* =========================================================
+   CONTENIDO PRINCIPAL
+   ========================================================= */
+.seccion-cuenta {
+    background:
+        radial-gradient(circle at top left, rgba(208, 140, 255, 0.10), transparent 24%),
+        radial-gradient(circle at top right, rgba(201, 247, 255, 0.08), transparent 20%),
+        linear-gradient(180deg, #040404 0%, #000000 100%);
+}
+
+.panel-cuenta {
+    display: grid;
+    grid-template-columns: minmax(0, 820px);
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+
+/* =========================================================
+   TARJETA DE DATOS DEL USUARIO
+   ========================================================= */
+.tarjeta-cuenta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem;
+    background:
+        radial-gradient(circle at top left, rgba(208, 140, 255, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(201, 247, 255, 0.10), transparent 25%),
+        var(--degradado-panel);
+    border: 1px solid var(--color-borde);
+    border-radius: 1rem;
+    box-shadow: var(--sombra-neon-suave);
+}
+
+.tarjeta-cuenta__icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: rgba(201, 247, 255, 0.08);
+    border: 1px solid rgba(201, 247, 255, 0.18);
+    color: var(--color-neon-cian);
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.tarjeta-cuenta__nombre {
+    margin: 0 0 0.25rem;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-texto);
+}
+
+.tarjeta-cuenta__email {
+    margin: 0 0 0.25rem;
+    font-size: 0.9rem;
+    color: var(--color-texto-secundario);
+}
+
+.tarjeta-cuenta__telefono {
+    margin: 0 0 0.6rem;
+    font-size: 0.9rem;
+    color: var(--color-texto-secundario);
+}
+
+.tarjeta-cuenta__rol {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(208, 140, 255, 0.12);
+    border: 1px solid rgba(208, 140, 255, 0.3);
+    color: var(--color-neon-violeta);
+}
+
+
+/* =========================================================
+   LISTA DE PEDIDOS
+   ========================================================= */
+.lista-pedidos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.75rem;
+    background: var(--degradado-panel);
+    border: 1px solid var(--color-borde);
+    border-radius: 1rem;
+    box-shadow: var(--sombra-neon-suave);
+}
+
+.lista-pedidos__estado {
+    color: var(--color-texto-secundario);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+/* Tarjeta individual de pedido */
+.pedido-item {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.pedido-item:hover {
+    border-color: rgba(201, 247, 255, 0.18);
+}
+
+.pedido-item__cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+.pedido-item__id {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-neon-cian);
+}
+
+.pedido-item__fecha {
+    font-size: 0.82rem;
+    color: var(--color-texto-secundario);
+}
+
+.pedido-item__total {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-neon-violeta);
+    white-space: nowrap;
+}
+
+.pedido-item__estado {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    margin-left: auto;
+}
+
+.estado--PENDIENTE  { background: rgba(255, 200, 50, 0.12);  border: 1px solid rgba(255, 200, 50, 0.3);  color: #ffc832; }
+.estado--PROCESANDO { background: rgba(201, 247, 255, 0.10); border: 1px solid rgba(201, 247, 255, 0.3); color: var(--color-neon-cian); }
+.estado--ENVIADA    { background: rgba(80, 230, 160, 0.10);  border: 1px solid rgba(80, 230, 160, 0.3);  color: #50e6a0; }
+.estado--CANCELADA  { background: rgba(255, 77, 240, 0.10);  border: 1px solid rgba(255, 77, 240, 0.3);  color: var(--color-neon-rosa); }
+
+/* Ítems del pedido */
+.pedido-item__productos {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pedido-producto {
+    display: grid;
+    grid-template-columns: 1fr 3rem 8rem;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+}
+
+.pedido-producto__nombre {
+    color: var(--color-texto);
+    font-weight: 500;
+}
+
+.pedido-producto__cantidad {
+    color: var(--color-texto-secundario);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.pedido-producto__precio {
+    color: var(--color-neon-violeta);
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.pedido-item__cargando {
+    font-size: 0.82rem;
+    color: var(--color-texto-secundario);
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 991.98px) {
+    .seccion-hero-cuenta {
+        min-height: 48vh;
+    }
+
+    .panel-cuenta {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tarjeta-cuenta {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pedido-item__cabecera {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
