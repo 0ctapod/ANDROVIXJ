@@ -105,19 +105,12 @@ async function cargarListaProductos() {
 
 function renderizarListaProductos(contenedor, productos) {
     if (productos.length === 0) {
-        contenedor.innerHTML = `
-            <h3 class="lista-productos-admin__titulo">Productos registrados</h3>
-            <p class="lista-productos-admin__vacio">No hay productos registrados aún.</p>`;
+        contenedor.innerHTML = `<p class="lista-productos-admin__vacio">No hay productos registrados aún.</p>`;
         return;
     }
 
     contenedor.innerHTML = `
-        <h3 class="lista-productos-admin__titulo">
-            Productos registrados
-            <span style="font-size:0.8rem;font-weight:400;color:var(--color-texto-secundario);margin-left:0.5rem">
-                (${productos.length})
-            </span>
-        </h3>
+        <p class="lista-productos-admin__contador">${productos.length} producto${productos.length !== 1 ? "s" : ""}</p>
         ${productos.map(crearFilaProducto).join("")}`;
 }
 
@@ -255,11 +248,79 @@ function inicializarListaProductos() {
     });
 }
 
+// ── Previsualización de tarjeta ──────────────────────────────────────────────
+
+function actualizarPrevia() {
+    const nombre      = document.getElementById("inputNombreProducto").value.trim();
+    const categoria   = document.getElementById("inputCategoriaProducto").value;
+    const precio      = Number(document.getElementById("inputPrecioProducto").value);
+    const imagen      = document.getElementById("inputImagenProducto").value.trim();
+    const descripcion = document.getElementById("inputDescripcionProducto").value.trim();
+
+    const contenedor = document.getElementById("previa-tarjeta");
+    const vacio      = document.getElementById("previa-vacio");
+
+    const hayDatos = nombre || categoria || imagen || descripcion || precio;
+
+    if (!hayDatos) {
+        contenedor.hidden = true;
+        vacio.hidden      = false;
+        return;
+    }
+
+    vacio.hidden      = false;
+    contenedor.hidden = false;
+    vacio.hidden      = true;
+
+    const categoriaFormateada = formatearCategoria(categoria) || "Categoría";
+    const precioFormateado    = precio > 0 ? formatearPrecio(precio) : "$ —";
+    const rutaImagen          = imagen
+        ? `../assets/img/productos/${imagen}`
+        : null;
+
+    contenedor.innerHTML = `
+        <article class="tarjeta-producto">
+            ${rutaImagen
+                ? `<img src="${rutaImagen}" alt="${nombre || 'Producto'}"
+                        onerror="this.style.display='none';this.nextElementSibling.hidden=false">`
+                : ""}
+            <div class="previa-sin-imagen" ${rutaImagen ? "hidden" : ""}>
+                <i class="fa-regular fa-image" aria-hidden="true"></i>
+            </div>
+            <div class="contenido-tarjeta-producto">
+                <span class="categoria-producto">${categoriaFormateada}</span>
+                <h3 class="nombre-producto">${nombre || "Nombre del producto"}</h3>
+                <p class="descripcion-producto">${descripcion || "Descripción del producto..."}</p>
+                <div class="pie-producto">
+                    <span class="precio-producto">${precioFormateado}</span>
+                    <button class="boton-carrito" type="button" disabled>
+                        <i class="fa-solid fa-cart-shopping me-2" aria-hidden="true"></i>
+                        Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        </article>`;
+}
+
+function inicializarPrevia() {
+    const campos = [
+        "inputNombreProducto",
+        "inputCategoriaProducto",
+        "inputPrecioProducto",
+        "inputImagenProducto",
+        "inputDescripcionProducto"
+    ];
+    campos.forEach(id => {
+        document.getElementById(id)?.addEventListener("input", actualizarPrevia);
+    });
+}
+
 // ── Arranque ─────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
     protegerPagina();
     inicializarFormulario();
     inicializarListaProductos();
+    inicializarPrevia();
     cargarListaProductos();
 });

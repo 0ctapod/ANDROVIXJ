@@ -130,6 +130,21 @@
                 <!-- ================================================= -->
                 <!-- FIN: Formulario de administrador                  -->
                 <!-- ================================================= -->
+
+                <!-- ================================================= -->
+                <!-- INICIO: Previsualización de tarjeta               -->
+                <!-- ================================================= -->
+                <div class="previa-producto" id="previa-producto" aria-label="Previsualización del producto">
+                    <p class="previa-producto__etiqueta">Previsualización</p>
+                    <div class="previa-producto__vacio" id="previa-vacio">
+                        <i class="fa-regular fa-image" aria-hidden="true"></i>
+                        <p>Completa el formulario<br>para ver la tarjeta</p>
+                    </div>
+                    <div class="previa-producto__tarjeta" id="previa-tarjeta" hidden></div>
+                </div>
+                <!-- ================================================= -->
+                <!-- FIN: Previsualización de tarjeta                  -->
+                <!-- ================================================= -->
             </section>
         </div>
     </main>
@@ -149,7 +164,7 @@
                     <span class="linea-destacada" aria-hidden="true"></span>
                 </div>
             </div>
-            <div class="panel-administrador">
+            <div class="panel-administrador panel-administrador--centrado">
                 <div id="lista-productos-admin" class="lista-productos-admin">
                     <p class="lista-productos-admin__vacio">Cargando productos...</p>
                 </div>
