@@ -72,13 +72,27 @@ function crearFilaProducto(producto) {
                     <span class="producto-admin-stock">Stock: ${producto.stock}</span>
                 </div>
             </div>
-            <button
-                class="boton-eliminar-producto"
-                data-id="${producto.idProducto}"
-                data-nombre="${producto.nombre}"
-                aria-label="Eliminar ${producto.nombre}">
-                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
-            </button>
+            <div class="producto-admin-acciones">
+                <button
+                    class="boton-editar-producto"
+                    data-id="${producto.idProducto}"
+                    data-nombre="${producto.nombre}"
+                    data-categoria="${producto.categoria}"
+                    data-precio="${producto.precio}"
+                    data-stock="${producto.stock}"
+                    data-imagen="${producto.imagenUrl}"
+                    data-descripcion="${producto.descripcion}"
+                    aria-label="Editar ${producto.nombre}">
+                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                </button>
+                <button
+                    class="boton-eliminar-producto"
+                    data-id="${producto.idProducto}"
+                    data-nombre="${producto.nombre}"
+                    aria-label="Eliminar ${producto.nombre}">
+                    <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     `;
 }
@@ -112,6 +126,38 @@ function renderizarListaProductos(contenedor, productos) {
     contenedor.innerHTML = `
         <p class="lista-productos-admin__contador">${productos.length} producto${productos.length !== 1 ? "s" : ""}</p>
         ${productos.map(crearFilaProducto).join("")}`;
+}
+
+// ── Modo edición ─────────────────────────────────────────────────────────────
+
+let productoEnEdicion = null;
+
+function activarModoEdicion(boton) {
+    const d = boton.dataset;
+    productoEnEdicion = { id: d.id };
+
+    document.getElementById("inputNombreProducto").value      = d.nombre;
+    document.getElementById("inputCategoriaProducto").value   = d.categoria;
+    document.getElementById("inputPrecioProducto").value      = d.precio;
+    document.getElementById("inputStockProducto").value       = d.stock;
+    document.getElementById("inputImagenProducto").value      = d.imagen;
+    document.getElementById("inputDescripcionProducto").value = d.descripcion;
+
+    document.getElementById("boton-submit-admin").textContent       = "Actualizar producto";
+    document.getElementById("boton-cancelar-edicion").hidden        = false;
+    document.getElementById("formulario-producto").scrollIntoView({ behavior: "smooth", block: "start" });
+
+    actualizarPrevia();
+    mostrarMensajeFormulario("Editando: " + d.nombre);
+}
+
+function cancelarEdicion() {
+    productoEnEdicion = null;
+    document.getElementById("formulario-producto").reset();
+    document.getElementById("boton-submit-admin").textContent = "Guardar producto";
+    document.getElementById("boton-cancelar-edicion").hidden  = true;
+    mostrarMensajeFormulario("");
+    actualizarPrevia();
 }
 
 // ── Eliminación ──────────────────────────────────────────────────────────────
@@ -201,17 +247,22 @@ function inicializarFormulario() {
         boton.disabled     = true;
         boton.textContent  = "Guardando...";
 
+        const esEdicion = productoEnEdicion !== null;
+        const url       = esEdicion ? `${API_URL}/productos/${productoEnEdicion.id}` : `${API_URL}/productos`;
+        const metodo    = esEdicion ? "PUT" : "POST";
+
         try {
-            const response = await fetch(`${API_URL}/productos`, {
-                method:  "POST",
+            const response = await fetch(url, {
+                method:  metodo,
                 headers: obtenerHeaders(),
                 body:    JSON.stringify(producto)
             });
 
-            if (response.status === 201 || response.ok) {
-                mostrarMensajeFormulario("Producto guardado correctamente.");
-                formulario.reset();
-                cargarListaProductos();   // actualizar la lista automáticamente
+            if (response.ok || response.status === 201) {
+                const mensaje = esEdicion ? "Producto actualizado correctamente." : "Producto guardado correctamente.";
+                mostrarMensajeFormulario(mensaje);
+                cancelarEdicion();
+                cargarListaProductos();
 
             } else if (response.status === 403) {
                 mostrarMensajeFormulario("Sin permisos. ¿Tu sesión sigue activa?", true);
@@ -225,7 +276,7 @@ function inicializarFormulario() {
 
         } finally {
             boton.disabled    = false;
-            boton.textContent = "Guardar producto";
+            boton.textContent = esEdicion ? "Actualizar producto" : "Guardar producto";
         }
     });
 }
@@ -236,16 +287,20 @@ function inicializarListaProductos() {
     const contenedor = document.getElementById("lista-productos-admin");
     if (!contenedor) return;
 
-    // Event delegation: un solo listener para todos los botones de eliminar,
-    // incluyendo los que se crean después de cargar la lista.
     contenedor.addEventListener("click", (evento) => {
-        const boton = evento.target.closest(".boton-eliminar-producto");
-        if (!boton) return;
+        const botonEliminar = evento.target.closest(".boton-eliminar-producto");
+        const botonEditar   = evento.target.closest(".boton-editar-producto");
 
-        const id     = boton.dataset.id;
-        const nombre = boton.dataset.nombre;
-        eliminarProducto(id, nombre);
+        if (botonEliminar) {
+            eliminarProducto(botonEliminar.dataset.id, botonEliminar.dataset.nombre);
+        }
+        if (botonEditar) {
+            activarModoEdicion(botonEditar);
+        }
     });
+
+    document.getElementById("boton-cancelar-edicion")
+        ?.addEventListener("click", cancelarEdicion);
 }
 
 // ── Previsualización de tarjeta ──────────────────────────────────────────────

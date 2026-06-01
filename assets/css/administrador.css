@@ -215,6 +215,25 @@
     font-weight: 600;
 }
 
+.boton-cancelar-admin {
+    width: 100%;
+    margin-top: 0.6rem;
+    padding: 0.75rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.9rem;
+    background: transparent;
+    color: var(--color-texto-secundario);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.boton-cancelar-admin:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: var(--color-texto);
+}
+
 
 .panel-administrador--centrado {
     grid-template-columns: minmax(0, 820px);
@@ -360,6 +379,31 @@
     color: var(--color-texto-secundario);
     font-size: 0.82rem;
     white-space: nowrap;
+}
+
+/* Botones de acción por fila */
+.producto-admin-acciones {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.boton-editar-producto {
+    background: transparent;
+    border: 1px solid rgba(201, 247, 255, 0.25);
+    border-radius: 0.5rem;
+    color: rgba(201, 247, 255, 0.6);
+    padding: 0.45rem 0.65rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.boton-editar-producto:hover {
+    color: var(--color-neon-cian);
+    border-color: rgba(201, 247, 255, 0.5);
+    box-shadow: 0 0 10px rgba(201, 247, 255, 0.15);
 }
 
 /* Botón eliminar */
