@@ -107,6 +107,8 @@ async function cargarPedidos() {
     const sesion     = obtenerSesion();
     const token      = localStorage.getItem(CLAVE_TOKEN);
 
+    if (!sesion || !token) return;
+
     try {
         const response = await fetch(`${API_URL}/pedidos/usuario/${sesion.idUsuario}`, {
             headers: { "Authorization": `Bearer ${token}` }

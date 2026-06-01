@@ -5,7 +5,7 @@
 // 1. Si ya hay token en localStorage → redirigir directo.
 // 2. El usuario envía el formulario.
 // 3. Se validan email y contraseña (formato local).
-// 4. POST /auth/login → { token, idUsuario, nombreCompleto, rol }
+// 4. POST /auth/login → { token, idUsuario, nombreCompleto, telefono, rol }
 // 5. Se guarda el token y los datos de sesión en localStorage.
 // 6. Se redirige según el rol: ADMIN → administrador, CLIENTE → inicio.
 // =========================================================

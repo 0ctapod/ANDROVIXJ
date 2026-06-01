@@ -5,26 +5,16 @@
 //
 // Funciones:
 //   - Proteger la página: solo accesible con rol ADMIN.
-//   - Crear producto → POST /productos
-//   - Listar productos → GET /productos
+//   - Crear producto   → POST /productos
+//   - Editar producto  → PUT  /productos/{id}
+//   - Listar productos → GET  /productos
 //   - Eliminar producto → DELETE /productos/{id}
+//   - Previsualización de tarjeta en tiempo real
 //
 // Constantes globales: API_URL, CLAVE_TOKEN, CLAVE_SESION → config.js
 // Modales: mostrarAlertaModal, mostrarConfirmacionModal → components.js
 // =========================================================
 
-// ── Mapa de categoría para mostrar en la lista ───────────────────────────────
-const FORMATO_CATEGORIA = {
-    CAMISETAS:  "Camisetas",
-    CHAQUETAS:  "Chaquetas",
-    PANTALONES: "Pantalones",
-    CALZADO:    "Calzado",
-    ACCESORIOS: "Accesorios"
-};
-
-function formatearCategoria(categoria) {
-    return FORMATO_CATEGORIA[categoria] || categoria;
-}
 
 function formatearPrecio(precio) {
     return `$ ${Number(precio).toLocaleString("es-CO")}`;
@@ -67,7 +57,7 @@ const cachProductos = new Map();
 
 function crearFilaProducto(producto) {
     cachProductos.set(String(producto.idProducto), producto);
-    const categoria = formatearCategoria(producto.categoria);
+    const categoria = producto.categoria;
     return `
         <div class="producto-admin-item" data-id="${producto.idProducto}">
             <div class="producto-admin-info">
@@ -148,7 +138,7 @@ function activarModoEdicion(boton) {
     document.getElementById("formulario-producto").scrollIntoView({ behavior: "smooth", block: "start" });
 
     actualizarPrevia();
-    mostrarMensajeFormulario("Editando: " + d.nombre);
+    mostrarMensajeFormulario("Editando: " + producto.nombre);
 }
 
 function cancelarEdicion() {
@@ -333,11 +323,10 @@ function actualizarPrevia() {
         return;
     }
 
-    vacio.hidden      = false;
     contenedor.hidden = false;
     vacio.hidden      = true;
 
-    const categoriaFormateada = formatearCategoria(categoria) || "Categoría";
+    const categoriaFormateada = categoria || "Categoría";
     const precioFormateado    = precio > 0 ? formatearPrecio(precio) : "$ —";
     const rutaImagen          = imagen
         ? `../assets/img/productos/${imagen}`

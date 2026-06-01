@@ -16,23 +16,6 @@
 // ── Utilidades ───────────────────────────────────────────────────────────────
 
 /**
- * La API devuelve categorías en mayúsculas ("CAMISETAS").
- * Los botones de filtro y el CSS esperan el formato capitalizado ("Camisetas").
- * Esta función convierte entre ambos.
- */
-const FORMATO_CATEGORIA = {
-    CAMISETAS:  "Camisetas",
-    CHAQUETAS:  "Chaquetas",
-    PANTALONES: "Pantalones",
-    CALZADO:    "Calzado",
-    ACCESORIOS: "Accesorios"
-};
-
-function formatearCategoria(categoria) {
-    return FORMATO_CATEGORIA[categoria] || categoria;
-}
-
-/**
  * La API puede devolver una URL completa o solo el nombre del archivo.
  * Esta función normaliza ambos casos.
  */
@@ -56,15 +39,14 @@ function formatearPrecio(precio) {
  * con su producto real al momento de finalizar la compra.
  */
 function crearCardProducto(producto) {
-    const categoriaFormateada = formatearCategoria(producto.categoria);
-    const rutaImagen          = obtenerRutaImagen(producto.imagenUrl);
+    const rutaImagen = obtenerRutaImagen(producto.imagenUrl);
 
     return `
-        <div class="col-12 col-md-6 col-xl-4" data-categoria="${categoriaFormateada}">
+        <div class="col-12 col-md-6 col-xl-4" data-categoria="${producto.categoria}">
             <article class="tarjeta-producto" data-producto-id="${producto.idProducto}">
                 <img src="${rutaImagen}" alt="${producto.nombre}">
                 <div class="contenido-tarjeta-producto">
-                    <span class="categoria-producto">${categoriaFormateada}</span>
+                    <span class="categoria-producto">${producto.categoria}</span>
                     <h3 class="nombre-producto">${producto.nombre}</h3>
                     <p class="descripcion-producto">${producto.descripcion}</p>
                     <div class="pie-producto">

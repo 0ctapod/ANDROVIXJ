@@ -282,17 +282,6 @@
     box-shadow: var(--sombra-neon-suave);
 }
 
-.lista-productos-admin__titulo {
-    margin: 0 0 1.25rem;
-    font-family: var(--fuente-destacada);
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-texto);
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(201, 247, 255, 0.12);
-}
 
 .lista-productos-admin__contador {
     margin: 0 0 0.75rem;
