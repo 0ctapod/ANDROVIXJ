@@ -75,28 +75,36 @@ function cerrarSesion() {
  *   - Con sesión: muestra el nombre del usuario + icono de logout → cierra sesión.
  */
 function actualizarIconoUsuario() {
-    const icono = document.getElementById("icono-usuario");
-    if (!icono) return;
+    const iconoUsuario = document.getElementById("icono-usuario");
+    const iconoPanel   = document.getElementById("icono-panel");
+    if (!iconoUsuario) return;
 
     const sesion = obtenerSesion();
 
     if (!sesion) {
-        // Sin sesión activa: el comportamiento por defecto del enlace (ir a login) se mantiene.
-        icono.setAttribute("aria-label", "Iniciar sesión");
+        iconoUsuario.setAttribute("aria-label", "Iniciar sesión");
         return;
     }
 
-    // Con sesión activa: cambiar el ícono a "cerrar sesión" y mostrar el nombre.
-    icono.setAttribute("aria-label", `Cerrar sesión (${sesion.nombreCompleto})`);
-    icono.setAttribute("title", `Sesión: ${sesion.nombreCompleto} · ${sesion.rol}`);
+    // Mostrar ícono de panel con destino según el rol
+    if (iconoPanel) {
+        const esAdmin  = sesion.rol === "ADMIN";
+        const enPaginas = window.location.pathname.includes("/paginas/");
+        const base      = enPaginas ? "" : "paginas/";
 
-    const iconoEl = icono.querySelector("i");
-    if (iconoEl) {
-        iconoEl.className = "fa-solid fa-right-from-bracket fs-5";
+        iconoPanel.href = base + (esAdmin ? "administrador.html" : "mi-cuenta.html");
+        iconoPanel.setAttribute("aria-label", esAdmin ? "Panel de administrador" : "Mi cuenta");
+        iconoPanel.setAttribute("title", esAdmin ? "Panel de administrador" : "Mi cuenta");
+        iconoPanel.hidden = false;
     }
 
-    // Al hacer clic se cierra la sesión en vez de navegar al href del enlace.
-    icono.addEventListener("click", (e) => {
+    // Convertir ícono de usuario en logout
+    iconoUsuario.setAttribute("aria-label", `Cerrar sesión (${sesion.nombreCompleto})`);
+    iconoUsuario.setAttribute("title", `Cerrar sesión · ${sesion.nombreCompleto}`);
+    const iconoEl = iconoUsuario.querySelector("i");
+    if (iconoEl) iconoEl.className = "fa-solid fa-right-from-bracket fs-5";
+
+    iconoUsuario.addEventListener("click", (e) => {
         e.preventDefault();
         cerrarSesion();
     });
